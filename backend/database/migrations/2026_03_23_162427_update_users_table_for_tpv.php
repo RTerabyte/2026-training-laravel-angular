@@ -9,8 +9,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('operator')->after('uuid');
+            $table->foreignId('restaurant_id')->nullable()->after('uuid')->constrained('restaurants');
+            $table->string('role')->default('operator')->after('restaurant_id');
             $table->string('image_src')->nullable()->after('role');
+            $table->string('pin')->nullable()->after('password');
             $table->softDeletes();
         });
     }
@@ -18,7 +20,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['role', 'image_src', 'deleted_at']);
+            $table->dropConstrainedForeignId('restaurant_id');
+            $table->dropColumn(['role', 'image_src', 'pin', 'deleted_at']);
         });
     }
 };

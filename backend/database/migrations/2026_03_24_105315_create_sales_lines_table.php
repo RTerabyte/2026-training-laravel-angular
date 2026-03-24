@@ -6,16 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('sales_lines', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
+            $table->foreignId('restaurant_id')->constrained('restaurants');
             $table->foreignId('sale_id')->constrained('sales');
-            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('order_line_id')->constrained('order_lines');
             $table->foreignId('user_id')->constrained('users');
             $table->integer('quantity');
             $table->integer('price');
@@ -25,9 +23,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('sales_lines');

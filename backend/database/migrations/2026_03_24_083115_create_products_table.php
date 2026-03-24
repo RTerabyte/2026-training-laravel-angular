@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
+            $table->foreignId('restaurant_id')->constrained('restaurants');
             $table->foreignId('family_id')->constrained('families');
             $table->foreignId('tax_id')->constrained('taxes');
             $table->string('image_src')->nullable();
