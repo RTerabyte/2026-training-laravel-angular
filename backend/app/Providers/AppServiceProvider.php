@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Family\Domain\Interfaces\FamilyRepositoryInterface;
+use App\Family\Infrastructure\Persistence\Repositories\EloquentFamilyRepository;
 use App\User\Domain\Interfaces\PasswordHasherInterface;
 use App\User\Domain\Interfaces\UserRepositoryInterface;
 use App\User\Infrastructure\Persistence\Repositories\EloquentUserRepository;
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
         $this->app->bind(PasswordHasherInterface::class, LaravelPasswordHasher::class);
+        $this->app->bind(FamilyRepositoryInterface::class, EloquentFamilyRepository::class);
     }
 
     /**

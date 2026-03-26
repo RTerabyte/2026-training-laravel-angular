@@ -2,6 +2,7 @@
 
 namespace App\Family\Domain\Entity;
 
+use App\Family\Domain\ValueObject\FamilyName;
 use App\Shared\Domain\ValueObject\DomainDateTime;
 use App\Shared\Domain\ValueObject\Uuid;
 
@@ -9,7 +10,7 @@ class Family
 {
    private function __construct(
     private Uuid $id,
-    private string $name,
+    private FamilyName $name,
     private string $restaurantId,
     private bool $active,
     private DomainDateTime $createdAt,
@@ -22,7 +23,7 @@ class Family
 
         return new self(
             Uuid::generate(),
-            $name,
+            FamilyName::create($name),
             $restaurantId,
             true,
             $now,
@@ -40,7 +41,7 @@ class Family
     ): self {
         return new self(
             Uuid::create($id),
-            $name,
+            FamilyName::create($name),
             $restaurantId,
             $active,
             DomainDateTime::create($createdAt),
@@ -55,7 +56,7 @@ class Family
 
     public function name(): string
     {
-        return $this->name;
+        return $this->name->value();
     }
 
     public function restaurantId(): string
