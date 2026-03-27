@@ -17,7 +17,7 @@ class Family
     private DomainDateTime $updatedAt,
     ) {}
 
-    public static function dddcreate(string $name, string $restaurantId): self
+    public static function dddCreate(string $name, string $restaurantId): self
     {
         $now = DomainDateTime::now();
 
@@ -77,5 +77,27 @@ class Family
     public function updatedAt(): DomainDateTime
     {
         return $this->updatedAt;
+    }
+
+    public function update(string $name, bool $active): self
+    {
+        return new self(
+            $this->id,
+            FamilyName::create($name),
+            $this->restaurantId,
+            $active,
+            $this->createdAt,
+            DomainDateTime::now(),
+        );
+    }
+
+    public function activate(): self
+    {
+        return $this->update($this->name->value(), true);
+    }
+
+    public function deactivate(): self
+    {
+        return $this->update($this->name->value(), false);
     }
 }

@@ -43,4 +43,26 @@ class EloquentFamilyRepository implements FamilyRepositoryInterface
             $model->updated_at->toDateTimeImmutable(),
         );
     }
+
+   
+    public function findAll(): array
+    {
+        $models = $this->model->newQuery()->get();
+
+        return $models->map(function (EloquentFamily $model) {
+            return Family::fromPersistence(
+                $model->uuid,
+                $model->name,
+                $model->restaurant_id,
+                $model->active,
+                $model->created_at->toDateTimeImmutable(),
+                $model->updated_at->toDateTimeImmutable(),
+            );
+        })->all();
+    }
+
+    public function delete(Family $family): void
+    {
+        $this->model->newQuery()->where('uuid', $family->id()->value())->delete();
+    }
 }
