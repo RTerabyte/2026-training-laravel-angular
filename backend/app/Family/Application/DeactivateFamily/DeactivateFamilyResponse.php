@@ -19,8 +19,8 @@ final readonly class DeactivateFamilyResponse
     {
         return new self(
             id: $family->id()->value(),
-            name: $family->name(),
-            restaurantId: $family->restaurantId(),
+            name: $family->name()->value(),
+            restaurantId: $family->restaurantId()->value(),
             active: $family->active(),
             createdAt: $family->createdAt()->format(\DateTimeInterface::ATOM),
             updatedAt: $family->updatedAt()->format(\DateTimeInterface::ATOM),
