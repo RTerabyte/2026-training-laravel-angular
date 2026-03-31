@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Family\Domain\ValueObject;
+namespace App\Shared\Domain\ValueObject;
 
-class RestaurantId
+class FamilyId
 {
     private string $value;
 
@@ -11,7 +11,7 @@ class RestaurantId
         $trimmed = trim($value);
 
         if ($trimmed === '') {
-            throw new \InvalidArgumentException('Restaurant ID cannot be empty.');
+            throw new \InvalidArgumentException('Family id cannot be empty.');
         }
 
         $this->value = $trimmed;

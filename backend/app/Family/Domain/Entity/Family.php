@@ -3,7 +3,7 @@
 namespace App\Family\Domain\Entity;
 
 use App\Family\Domain\ValueObject\FamilyName;
-use App\Family\Domain\ValueObject\RestaurantId;
+use App\Shared\Domain\ValueObject\RestaurantId;
 use App\Shared\Domain\ValueObject\DomainDateTime;
 use App\Shared\Domain\ValueObject\Uuid;
 

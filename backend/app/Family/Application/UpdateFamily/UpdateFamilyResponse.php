@@ -27,18 +27,5 @@ final readonly class UpdateFamilyResponse
         );
     }
 
-    /**
-     * @return array<string, string|bool>
-     */
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'restaurant_id' => $this->restaurantId,
-            'active' => $this->active,
-            'created_at' => $this->createdAt,
-            'updated_at' => $this->updatedAt,
-        ];
-    }
+    
 }
