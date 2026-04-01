@@ -8,6 +8,7 @@ use App\Shared\Domain\ValueObject\FamilyId;
 use App\Shared\Domain\ValueObject\TaxId;
 use App\Shared\Domain\ValueObject\DomainDateTime;
 use App\Shared\Domain\ValueObject\Uuid;
+use App\Product\Domain\ValueObject\ProductImageSrc;
 use App\Product\Domain\ValueObject\ProductName;
 use App\Product\Domain\ValueObject\ProductPrice;
 use App\Product\Domain\ValueObject\ProductStock;
@@ -21,7 +22,7 @@ class Product
         private FamilyId $familyId,
         private TaxId $taxId,
         private ProductStock $stock,
-        private ?string $imageSrc,
+        private ProductImageSrc $imageSrc,
         private bool $active,
         private ProductName $name,
         private ProductPrice $price,
@@ -29,20 +30,28 @@ class Product
         private DomainDateTime $updatedAt,
     ) {}
 
-    public static function dddCreate(string $restaurantId, string $familyId, string $taxId, int $stock, ?string $imageSrc, string $name, int $price): self
-    {
+    public static function dddCreate(
+        RestaurantId $restaurantId,
+        FamilyId $familyId,
+        TaxId $taxId,
+        ProductStock $stock,
+        ProductImageSrc $imageSrc,
+        ProductName $name,
+        ProductPrice $price,
+    ): self {
+
         $now = DomainDateTime::now();
 
         return new self(
             Uuid::generate(),
-            RestaurantId::create($restaurantId),
-            FamilyId::create($familyId),
-            TaxId::create($taxId),
-            ProductStock::create($stock),
+            $restaurantId,
+            $familyId,
+            $taxId,
+            $stock,
             $imageSrc,
             true,
-            ProductName::create($name),
-            ProductPrice::create($price),
+            $name,
+            $price,
             $now,
             $now,
         );
@@ -67,7 +76,7 @@ class Product
             FamilyId::create($familyId),
             TaxId::create($taxId),
             ProductStock::create($stock),
-            $imageSrc,
+            ProductImageSrc::create($imageSrc),
             $active,
             ProductName::create($name),
             ProductPrice::create($price),
@@ -101,7 +110,7 @@ class Product
         return $this->stock;
     }
 
-    public function imageSrc(): ?string
+    public function imageSrc(): ProductImageSrc
     {
         return $this->imageSrc;
     }

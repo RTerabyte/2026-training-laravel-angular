@@ -28,12 +28,32 @@ final readonly class CreateProductResponse
             familyId: $product->familyId()->value(),
             taxId: $product->taxId()->value(),
             stock: $product->stock()->value(),
-            imageSrc: $product->imageSrc(),
+            imageSrc: $product->imageSrc()->value(),
             active: $product->active(),
             name: $product->name()->value(),
             price: $product->price()->value(),
             createdAt: $product->createdAt()->format(\DateTimeInterface::ATOM),
             updatedAt: $product->updatedAt()->format(\DateTimeInterface::ATOM),
         );
+    }
+
+    /**
+     * @return array<string, string|int|bool|null>
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'restaurant_id' => $this->restaurantId,
+            'family_id' => $this->familyId,
+            'tax_id' => $this->taxId,
+            'stock' => $this->stock,
+            'image_src' => $this->imageSrc,
+            'active' => $this->active,
+            'name' => $this->name,
+            'price' => $this->price,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
+        ];
     }
 }

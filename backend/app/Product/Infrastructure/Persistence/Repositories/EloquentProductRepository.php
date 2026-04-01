@@ -21,7 +21,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
                 'family_id' => $product->familyId()->value(),
                 'tax_id' => $product->taxId()->value(),
                 'stock' => $product->stock()->value(),
-                'image_src' => $product->imageSrc(),
+                'image_src' => $product->imageSrc()->value(),
                 'active' => $product->active(),
                 'name' => $product->name()->value(),
                 'price' => $product->price()->value(),

@@ -2,7 +2,7 @@
 
 namespace App\Product\Domain\ValueObject;
 
-class ProductPrice
+final class ProductPrice
 {
     private int $value;
 

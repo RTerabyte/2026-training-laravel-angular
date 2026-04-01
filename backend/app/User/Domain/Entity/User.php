@@ -19,8 +19,11 @@ class User
         private DomainDateTime $updatedAt,
     ) {}
 
-    public static function dddCreate(Email $email, UserName $name, PasswordHash $passwordHash): self
-    {
+    public static function dddCreate(
+        Email $email,
+        UserName $name,
+        PasswordHash $passwordHash
+    ): self {
         $now = DomainDateTime::now();
 
         return new self(

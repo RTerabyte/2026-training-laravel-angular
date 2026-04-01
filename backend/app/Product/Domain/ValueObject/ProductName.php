@@ -2,7 +2,7 @@
 
 namespace App\Product\Domain\ValueObject;
 
-class ProductName
+final class ProductName
 {
 
     private const MAX_LENGTH = 255;
