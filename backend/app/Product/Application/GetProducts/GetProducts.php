@@ -2,7 +2,7 @@
 
 namespace App\Product\Application\GetProducts;
 
-use App\Product\Application\GetProducts\GetProductsResponse;
+use App\Product\Application\GetProduct\GetProductResponse;
 use App\Product\Domain\Interfaces\ProductRepositoryInterface;
 
 final class GetProducts
@@ -16,10 +16,11 @@ final class GetProducts
         $products = $this->productRepository->findAll();
 
         $productResponses = array_map(
-            fn ($product) => GetProductsResponse::create($products),
+            fn ($product) => GetProductResponse::create($product),
             $products,
         );
 
         return GetProductsResponse::create($productResponses);
     }
 }
+                                                                                 

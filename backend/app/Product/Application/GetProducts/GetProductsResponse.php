@@ -2,19 +2,19 @@
 
 namespace App\Product\Application\GetProducts;
 
-use App\Product\Application\GetProducts\GetProductResponse;
+use App\Product\Application\GetProduct\GetProductResponse;
 
 final readonly class GetProductsResponse
 {
     /**
-     * @param GetProductsResponse[] $products
+     * @param GetProductResponse[] $products
      */
     public function __construct(
         public array $products,
     ) {}
 
     /**
-     * @param GetProductsResponse[] $products
+     * @param GetProductResponse[] $products
      */
     public static function create(array $products): self
     {
@@ -28,9 +28,10 @@ final readonly class GetProductsResponse
     {
         return [
             'products' => array_map(
-                fn (GetProductsResponse $product) => $product->toArray(),
+                fn(GetProductResponse $product) => $product->toArray(),
                 $this->products,
             ),
         ];
     }
 }
+  
