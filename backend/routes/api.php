@@ -11,7 +11,10 @@ use App\Family\Infrastructure\Entrypoint\Http\GetController as FamilyGetControll
 use App\Family\Infrastructure\Entrypoint\Http\IndexController as FamilyIndexController;
 use App\Family\Infrastructure\Entrypoint\Http\PostController as FamilyPostController;
 use App\Family\Infrastructure\Entrypoint\Http\PutController as FamilyPutController;
+
 use App\Product\Infrastructure\Entrypoint\Http\PostController as ProductPostController;
+use App\Product\Infrastructure\Entrypoint\Http\IndexController as ProductIndexController;
+use App\Product\Infrastructure\Entrypoint\Http\GetController as ProductGetController;
 
 
 Route::post('/users', PostController::class);
@@ -26,3 +29,5 @@ Route::patch('/families/{id}/deactivate', FamilyDeactivateController::class);
 Route::delete('/families/{id}', FamilyDeleteController::class);
 
 Route::post('/products', ProductPostController::class);
+Route::get('/products', ProductIndexController::class);
+Route::get('/products/{id}', ProductGetController::class);
