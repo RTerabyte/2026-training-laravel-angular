@@ -139,4 +139,54 @@ class Product
     {
         return $this->updatedAt;
     }
+
+    public function update(
+        FamilyId $familyId,
+        TaxId $taxId,
+        ProductStock $stock,
+        ProductImageSrc $imageSrc,
+        ProductName $name,
+        ProductPrice $price,
+        bool $active,
+    ): self {
+        return new self(
+            $this->id,
+            $this->restaurantId,
+            $familyId,
+            $taxId,
+            $stock,
+            $imageSrc,
+            $active,
+            $name,
+            $price,
+            $this->createdAt,
+            DomainDateTime::now(),
+        );
+    }
+
+    public function activate(): self
+    {
+        return $this->update(
+            $this->familyId,
+            $this->taxId,
+            $this->stock,
+            $this->imageSrc,
+            $this->name,
+            $this->price,
+            true,
+        );
+    }
+
+    public function deactivate(): self
+    {
+        return $this->update(
+            $this->familyId,
+            $this->taxId,
+            $this->stock,
+            $this->imageSrc,
+            $this->name,
+            $this->price,
+            false,
+        );
+    }
 }
