@@ -16,6 +16,7 @@ use App\Product\Infrastructure\Entrypoint\Http\PostController as ProductPostCont
 use App\Product\Infrastructure\Entrypoint\Http\IndexController as ProductIndexController;
 use App\Product\Infrastructure\Entrypoint\Http\GetController as ProductGetController;
 use App\Product\Infrastructure\Entrypoint\Http\PutController as ProductPutController;
+use App\Product\Infrastructure\Entrypoint\Http\DeleteController as ProductDeleteController;
 
 
 Route::post('/users', PostController::class);
@@ -33,3 +34,4 @@ Route::post('/products', ProductPostController::class);
 Route::get('/products', ProductIndexController::class);
 Route::get('/products/{id}', ProductGetController::class);
 Route::put('/products/{id}', ProductPutController::class);
+Route::delete('/products/{id}', ProductDeleteController::class);
