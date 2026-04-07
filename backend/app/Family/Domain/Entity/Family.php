@@ -3,19 +3,19 @@
 namespace App\Family\Domain\Entity;
 
 use App\Family\Domain\ValueObject\FamilyName;
-use App\Family\Domain\ValueObject\RestaurantId;
+use App\Shared\Domain\ValueObject\RestaurantId;
 use App\Shared\Domain\ValueObject\DomainDateTime;
 use App\Shared\Domain\ValueObject\Uuid;
 
 class Family
 {
-   private function __construct(
-    private Uuid $id,
-    private FamilyName $name,
-    private RestaurantId $restaurantId,
-    private bool $active,
-    private DomainDateTime $createdAt,
-    private DomainDateTime $updatedAt,
+    private function __construct(
+        private Uuid $id,
+        private FamilyName $name,
+        private RestaurantId $restaurantId,
+        private bool $active,
+        private DomainDateTime $createdAt,
+        private DomainDateTime $updatedAt,
     ) {}
 
     public static function dddCreate(string $name, string $restaurantId): self
@@ -80,8 +80,10 @@ class Family
         return $this->updatedAt;
     }
 
-    public function update(string $name, bool $active): self
-    {
+    public function update(
+        string $name,
+        bool $active
+    ): self {
         return new self(
             $this->id,
             FamilyName::create($name),
@@ -94,11 +96,17 @@ class Family
 
     public function activate(): self
     {
-        return $this->update($this->name->value(), true);
+        return $this->update(
+            $this->name->value(),
+            true
+        );
     }
 
     public function deactivate(): self
     {
-        return $this->update($this->name->value(), false);
+        return $this->update(
+            $this->name->value(),
+            false
+        );
     }
 }

@@ -6,7 +6,7 @@ use App\Family\Application\CreateFamily\CreateFamily;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class PostController
+final class PostController
 {
     public function __construct(
         private CreateFamily $createFamily,

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('restaurant_id')->nullable()->after('uuid')->constrained('restaurants');
+            $table->foreignId('restaurant_id')->after('uuid')->constrained('restaurants');
             $table->string('role')->default('operator')->after('restaurant_id');
             $table->string('image_src')->nullable()->after('role');
             $table->string('pin')->nullable()->after('password');
