@@ -8,8 +8,8 @@ final readonly class UpdateFamilyResponse
 {
     public function __construct(
         public string $id,
-        public string $name,
         public string $restaurantId,
+        public string $name,
         public bool $active,
         public string $createdAt,
         public string $updatedAt,
@@ -19,13 +19,25 @@ final readonly class UpdateFamilyResponse
     {
         return new self(
             id: $family->id()->value(),
-            name: $family->name()->value(),
             restaurantId: $family->restaurantId()->value(),
+            name: $family->name()->value(),
             active: $family->active(),
             createdAt: $family->createdAt()->format(\DateTimeInterface::ATOM),
             updatedAt: $family->updatedAt()->format(\DateTimeInterface::ATOM),
         );
     }
-
-    
+    /**
+     * @return array<string, string|bool>
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'restaurant_id' => $this->restaurantId,
+            'name' => $this->name,
+            'active' => $this->active,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
+        ];
+    }
 }

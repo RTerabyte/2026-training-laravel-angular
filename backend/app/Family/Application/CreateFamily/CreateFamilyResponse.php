@@ -8,8 +8,8 @@ final readonly class CreateFamilyResponse
 {
     public function __construct(
         public string $id,
-        public string $name,
         public string $restaurantId,
+        public string $name,
         public bool $active,
         public string $createdAt,
         public string $updatedAt,
@@ -19,8 +19,8 @@ final readonly class CreateFamilyResponse
     {
         return new self(
             id: $family->id()->value(),
-            name: $family->name()->value(),
             restaurantId: $family->restaurantId()->value(),
+            name: $family->name()->value(),
             active: $family->active(),
             createdAt: $family->createdAt()->format(\DateTimeInterface::ATOM),
             updatedAt: $family->updatedAt()->format(\DateTimeInterface::ATOM),
@@ -34,8 +34,8 @@ final readonly class CreateFamilyResponse
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
             'restaurant_id' => $this->restaurantId,
+            'name' => $this->name,
             'active' => $this->active,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,

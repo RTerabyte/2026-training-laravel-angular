@@ -6,7 +6,7 @@ use App\Family\Domain\Entity\Family;
 use App\Family\Domain\Interfaces\FamilyRepositoryInterface;
 use App\Family\Infrastructure\Persistence\Models\EloquentFamily;
 
-class EloquentFamilyRepository implements FamilyRepositoryInterface
+final class EloquentFamilyRepository implements FamilyRepositoryInterface
 {
     public function __construct(
         private EloquentFamily $model,
@@ -17,8 +17,8 @@ class EloquentFamilyRepository implements FamilyRepositoryInterface
         $this->model->newQuery()->updateOrCreate(
             ['uuid' => $family->id()->value()],
             [
-                'name' => $family->name()->value(),
                 'restaurant_id' => $family->restaurantId()->value(),
+                'name' => $family->name()->value(),
                 'active' => $family->active(),
                 'created_at' => $family->createdAt()->value(),
                 'updated_at' => $family->updatedAt()->value(),
@@ -36,15 +36,17 @@ class EloquentFamilyRepository implements FamilyRepositoryInterface
 
         return Family::fromPersistence(
             $model->uuid,
-            $model->name,
             $model->restaurant_id,
+            $model->name,
             $model->active,
             $model->created_at->toDateTimeImmutable(),
             $model->updated_at->toDateTimeImmutable(),
         );
     }
 
-   
+    /**
+     * @return array<int, Family>
+     */
     public function findAll(): array
     {
         $models = $this->model->newQuery()->get();
@@ -52,8 +54,8 @@ class EloquentFamilyRepository implements FamilyRepositoryInterface
         return $models->map(function (EloquentFamily $model) {
             return Family::fromPersistence(
                 $model->uuid,
-                $model->name,
                 $model->restaurant_id,
+                $model->name,
                 $model->active,
                 $model->created_at->toDateTimeImmutable(),
                 $model->updated_at->toDateTimeImmutable(),

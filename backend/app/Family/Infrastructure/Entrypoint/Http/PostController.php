@@ -3,8 +3,8 @@
 namespace App\Family\Infrastructure\Entrypoint\Http;
 
 use App\Family\Application\CreateFamily\CreateFamily;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 final class PostController
 {
@@ -15,13 +15,13 @@ final class PostController
     public function __invoke(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
             'restaurant_id' => ['required', 'integer'],
+            'name' => ['required', 'string', 'max:255'], 
         ]);
 
         $response = ($this->createFamily)(
-            $validated['name'],
             (string) $validated['restaurant_id'],
+            $validated['name'],
         );
 
         return new JsonResponse($response->toArray(), 201);
