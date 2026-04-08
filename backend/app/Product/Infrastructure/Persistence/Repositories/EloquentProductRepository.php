@@ -6,7 +6,7 @@ use App\Product\Domain\Entity\Product;
 use App\Product\Domain\Interfaces\ProductRepositoryInterface;
 use App\Product\Infrastructure\Persistence\Models\EloquentProduct;
 
-class EloquentProductRepository implements ProductRepositoryInterface
+final class EloquentProductRepository implements ProductRepositoryInterface
 {
     public function __construct(
         private EloquentProduct $model,

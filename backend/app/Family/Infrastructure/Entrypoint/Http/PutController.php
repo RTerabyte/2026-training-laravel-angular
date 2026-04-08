@@ -16,13 +16,15 @@ final class PutController
     public function __invoke(Request $request, string $id): JsonResponse
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['sometimes', 'string', 'max:255'],
+            'active' => ['sometimes', 'boolean'],
         ]);
 
         try {
             $response = ($this->updateFamily)(
                 $id,
-                $validated['name'],
+                $validated['name'] ?? null,
+                $validated['active'] ?? null,
             );
 
             return new JsonResponse($response->toArray(), 200);

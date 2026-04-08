@@ -163,30 +163,4 @@ class Product
             DomainDateTime::now(),
         );
     }
-
-    public function activate(): self
-    {
-        return $this->update(
-            $this->familyId,
-            $this->taxId,
-            $this->stock,
-            $this->imageSrc,
-            $this->name,
-            $this->price,
-            true,
-        );
-    }
-
-    public function deactivate(): self
-    {
-        return $this->update(
-            $this->familyId,
-            $this->taxId,
-            $this->stock,
-            $this->imageSrc,
-            $this->name,
-            $this->price,
-            false,
-        );
-    }
 }

@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Family\Domain\ValueObject;
+use InvalidArgumentException;
 
-class FamilyName
+final readonly class FamilyName
 {
     private const MAX_LENGTH = 255;
 
@@ -13,11 +14,11 @@ class FamilyName
         $trimmed = trim($value);
 
         if ($trimmed === '') {
-            throw new \InvalidArgumentException('Family name cannot be empty.');
+            throw new InvalidArgumentException('Family name cannot be empty.');
         }
 
         if (mb_strlen($trimmed) > self::MAX_LENGTH) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Family name cannot exceed %d characters.', self::MAX_LENGTH)
             );
         }

@@ -4,6 +4,8 @@ namespace App\Family\Application\CreateFamily;
 
 use App\Family\Domain\Entity\Family;
 use App\Family\Domain\Interfaces\FamilyRepositoryInterface;
+use App\Family\Domain\ValueObject\FamilyName;
+use App\Shared\Domain\ValueObject\RestaurantId;
 
 class CreateFamily
 {
@@ -11,9 +13,17 @@ class CreateFamily
         private FamilyRepositoryInterface $familyRepository,
     ) {}
 
-    public function __invoke(string $name, string $restaurantId): CreateFamilyResponse
-    {
-        $family = Family::dddCreate($name, $restaurantId);
+    public function __invoke(
+        string $restaurantId,
+        string $name,
+    ): CreateFamilyResponse {
+        $restaurantIdVO = RestaurantId::create($restaurantId);
+        $nameVO = FamilyName::create($name);
+        $family = Family::dddCreate(
+            $restaurantIdVO,
+            $nameVO,
+        );
+
         $this->familyRepository->save($family);
 
         return CreateFamilyResponse::create($family);
