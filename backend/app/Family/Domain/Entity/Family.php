@@ -3,29 +3,31 @@
 namespace App\Family\Domain\Entity;
 
 use App\Family\Domain\ValueObject\FamilyName;
-use App\Shared\Domain\ValueObject\RestaurantId;
 use App\Shared\Domain\ValueObject\DomainDateTime;
+use App\Shared\Domain\ValueObject\RestaurantId;
 use App\Shared\Domain\ValueObject\Uuid;
 
 class Family
 {
     private function __construct(
         private Uuid $id,
-        private FamilyName $name,
         private RestaurantId $restaurantId,
+        private FamilyName $name,
         private bool $active,
         private DomainDateTime $createdAt,
         private DomainDateTime $updatedAt,
     ) {}
 
-    public static function dddCreate(string $name, string $restaurantId): self
-    {
+    public static function dddCreate(
+        RestaurantId $restaurantId,
+        FamilyName $name,
+    ): self {
         $now = DomainDateTime::now();
 
         return new self(
             Uuid::generate(),
-            FamilyName::create($name),
-            RestaurantId::create($restaurantId),
+            $restaurantId,
+            $name,
             true,
             $now,
             $now,
@@ -34,16 +36,16 @@ class Family
 
     public static function fromPersistence(
         string $id,
-        string $name,
         string $restaurantId,
+        string $name,
         bool $active,
         \DateTimeImmutable $createdAt,
         \DateTimeImmutable $updatedAt,
     ): self {
         return new self(
             Uuid::create($id),
-            FamilyName::create($name),
             RestaurantId::create($restaurantId),
+            FamilyName::create($name),
             $active,
             DomainDateTime::create($createdAt),
             DomainDateTime::create($updatedAt),
@@ -81,32 +83,16 @@ class Family
     }
 
     public function update(
-        string $name,
-        bool $active
+        FamilyName $name,
+        bool $active,
     ): self {
         return new self(
             $this->id,
-            FamilyName::create($name),
             $this->restaurantId,
+            $name,
             $active,
             $this->createdAt,
             DomainDateTime::now(),
-        );
-    }
-
-    public function activate(): self
-    {
-        return $this->update(
-            $this->name->value(),
-            true
-        );
-    }
-
-    public function deactivate(): self
-    {
-        return $this->update(
-            $this->name->value(),
-            false
         );
     }
 }
