@@ -3,7 +3,7 @@
 namespace App\Product\Domain\ValueObject;
 
 
-final class ProductImageSrc
+final readonly class ProductImageSrc
 {
     private const ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp', 'gif'];
 

@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Tax\Domain\Interfaces\TaxRepositoryInterface;
+use App\Tax\Infrastructure\Persistence\Repositories\EloquentTaxRepository;
 use App\Product\Domain\Interfaces\ProductRepositoryInterface;
 use App\Product\Infrastructure\Persistence\Repositories\EloquentProductRepository;
+use App\Restaurant\Domain\Interfaces\RestaurantRepositoryInterface;
+use App\Restaurant\Infrastructure\Persistence\Repositories\EloquentRestaurantRepository;
 use App\Family\Domain\Interfaces\FamilyRepositoryInterface;
 use App\Family\Infrastructure\Persistence\Repositories\EloquentFamilyRepository;
 use App\User\Domain\Interfaces\PasswordHasherInterface;
@@ -23,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PasswordHasherInterface::class, LaravelPasswordHasher::class);
         $this->app->bind(FamilyRepositoryInterface::class, EloquentFamilyRepository::class);
         $this->app->bind(ProductRepositoryInterface::class, EloquentProductRepository::class);
+        $this->app->bind(RestaurantRepositoryInterface::class, EloquentRestaurantRepository::class);
+        $this->app->bind(TaxRepositoryInterface::class, EloquentTaxRepository::class);
     }
 
     /**
