@@ -4,6 +4,7 @@ Sistema TPV (Terminal Punto de Venta) desarrollado con Laravel + Angular + Ionic
 
 Autor: Rodrigo Tera García  
 GitHub: RTerabyte 
+
 Periodo de prácticas: Marzo - Junio 2026  
 Actualizado a fecha de: 20/05/2026
 
