@@ -8,7 +8,6 @@ import { SaleService } from '../../infrastructure/sale.service';
 import { AuthService } from '../../../identity/infrastructure/auth.service';
 import { UserService } from '../../../identity/infrastructure/user.service';
 
-
 interface UserOption {
   id: string;
   name: string;
@@ -26,6 +25,9 @@ export class SalesComponent implements OnInit {
   isLoading = false;
 
   users: UserOption[] = [];
+  
+  selectedSale: Sale | null = null;
+  showSaleDetailModal = false;
 
   constructor(
     private saleService: SaleService,
@@ -83,10 +85,18 @@ export class SalesComponent implements OnInit {
   }
 
   getUserName(userId: string): string {
-  const user = this.users.find((item: UserOption) => {
-    return String(item.id) === String(userId);
-  });
+    const user = this.users.find((item: UserOption) => {
+      return String(item.id) === String(userId);
+    });
 
-  return user?.name ?? userId;
-}
+    return user?.name ?? userId;
+  }
+  
+
+  openSaleDetail(sale: Sale): void {
+    this.selectedSale = sale;
+    this.showSaleDetailModal = true;
+
+    console.log('SALE SELECTED', sale);
+  }
 }

@@ -15,6 +15,16 @@
       *ngIf="isAdmin()"
       class="nav-button"
       fill="clear"
+      [class.active]="isRouteActive('sales')"
+      (click)="goToSales()"
+    >
+      Ventas
+    </ion-button>
+
+    <ion-button
+      *ngIf="isAdmin()"
+      class="nav-button"
+      fill="clear"
       [class.active]="isRouteActive('settings')"
       (click)="goToSettings()"
     >

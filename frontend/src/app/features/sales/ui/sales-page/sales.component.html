@@ -28,8 +28,26 @@
       <span>{{ formatDate(sale.value_date) }}</span>
       <span>{{ getUserName(sale.user_id) }}</span>
       <strong>{{ sale.total / 100 | number: "1.2-2" }} €</strong>
-      <ion-button size="small" fill="clear" aria-label="Ver venta">
+      <ion-button
+        size="small"
+        fill="clear"
+        aria-label="Ver venta"
+        (click)="openSaleDetail(sale)"
+      >
         <ion-icon name="eye-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+  <div class="sale-detail-backdrop" *ngIf="showSaleDetailModal && selectedSale">
+    <div class="sale-detail-modal">
+      <h2>Venta #{{ selectedSale.ticket_number || "-" }}</h2>
+
+      <p>Fecha: {{ formatDate(selectedSale.value_date) }}</p>
+      <p>Usuario: {{ getUserName(selectedSale.user_id) }}</p>
+      <p>Total: {{ selectedSale.total / 100 | number: "1.2-2" }} €</p>
+
+      <ion-button fill="outline" (click)="showSaleDetailModal = false">
+        Cerrar
       </ion-button>
     </div>
   </div>
