@@ -115,12 +115,9 @@
           Cancelar
         </ion-button>
 
-     <ion-button
-  *ngIf="isPaymentComplete()"
-  (click)="confirmPayment()"
->
-  Finalizar venta
-</ion-button>
+        <ion-button *ngIf="isPaymentComplete()" (click)="confirmPayment()">
+          Finalizar venta
+        </ion-button>
       </div>
     </ion-card-content>
   </ion-card>
