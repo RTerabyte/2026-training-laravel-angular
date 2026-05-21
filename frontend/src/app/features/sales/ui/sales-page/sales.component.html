@@ -20,13 +20,17 @@
       <span>Fecha</span>
       <span>Usuario</span>
       <span>Total</span>
+      <span>Inspeccionar</span>
     </div>
 
     <div *ngFor="let sale of sales" class="sales-row">
-      <span>#{{ sale.ticket_number || '-' }}</span>
+      <span>#{{ sale.ticket_number || "-" }}</span>
       <span>{{ formatDate(sale.value_date) }}</span>
-      <span>{{ sale.user_id }}</span>
-      <strong>{{ sale.total / 100 | number: '1.2-2' }} €</strong>
+      <span>{{ getUserName(sale.user_id) }}</span>
+      <strong>{{ sale.total / 100 | number: "1.2-2" }} €</strong>
+      <ion-button size="small" fill="clear" aria-label="Ver venta">
+        <ion-icon name="eye-outline"></ion-icon>
+      </ion-button>
     </div>
   </div>
 </ion-content>
