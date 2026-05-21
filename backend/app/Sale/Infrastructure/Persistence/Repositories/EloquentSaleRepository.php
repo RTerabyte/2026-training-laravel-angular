@@ -60,7 +60,7 @@ final class EloquentSaleRepository implements SaleRepositoryInterface
             ->get();
 
         return $models
-            ->map(fn (EloquentSale $model) => $this->mapToEntity($model))
+            ->map(fn(EloquentSale $model) => $this->mapToEntity($model))
             ->all();
     }
 
@@ -76,7 +76,7 @@ final class EloquentSaleRepository implements SaleRepositoryInterface
             ->get();
 
         return $models
-            ->map(fn (EloquentSale $model) => $this->mapToEntity($model))
+            ->map(fn(EloquentSale $model) => $this->mapToEntity($model))
             ->all();
     }
 
@@ -96,7 +96,7 @@ final class EloquentSaleRepository implements SaleRepositoryInterface
             ->get();
 
         return $models
-            ->map(fn (EloquentSale $model) => $this->mapToEntity($model))
+            ->map(fn(EloquentSale $model) => $this->mapToEntity($model))
             ->all();
     }
 
@@ -129,7 +129,7 @@ final class EloquentSaleRepository implements SaleRepositoryInterface
             ->get();
 
         return $models
-            ->map(fn (EloquentSale $model) => $this->mapToEntity($model))
+            ->map(fn(EloquentSale $model) => $this->mapToEntity($model))
             ->all();
     }
 
@@ -154,5 +154,14 @@ final class EloquentSaleRepository implements SaleRepositoryInterface
             $model->created_at->toDateTimeImmutable(),
             $model->updated_at->toDateTimeImmutable(),
         );
+    }
+
+    public function nextTicketNumberByRestaurant(string $restaurantId): int
+    {
+        $lastTicketNumber = $this->model->newQuery()
+            ->where('restaurant_id', $restaurantId)
+            ->max('ticket_number');
+
+        return ((int) $lastTicketNumber) + 1;
     }
 }

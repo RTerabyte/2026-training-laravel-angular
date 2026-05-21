@@ -86,6 +86,7 @@ final class CheckoutOrder
             $restaurantId,
             $orderId,
             $userId,
+            $saleResponse->ticketNumber,
             $total,
         );
     }

@@ -9,7 +9,9 @@ final readonly class CheckoutOrderResponse
         public string $restaurantId,
         public string $orderId,
         public string $userId,
+        public ?int $ticketNumber,
         public int $total,
+
     ) {}
 
     public static function create(
@@ -17,6 +19,7 @@ final readonly class CheckoutOrderResponse
         string $restaurantId,
         string $orderId,
         string $userId,
+        ?int $ticketNumber,
         int $total,
     ): self {
         return new self(
@@ -24,6 +27,7 @@ final readonly class CheckoutOrderResponse
             $restaurantId,
             $orderId,
             $userId,
+            $ticketNumber,
             $total,
         );
     }
@@ -35,6 +39,7 @@ final readonly class CheckoutOrderResponse
             'restaurant_id' => $this->restaurantId,
             'order_id' => $this->orderId,
             'user_id' => $this->userId,
+            'ticket_number' => $this->ticketNumber,
             'total' => $this->total,
         ];
     }

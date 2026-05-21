@@ -9,6 +9,7 @@ use App\Shared\Domain\ValueObject\DomainDateTime;
 use App\Shared\Domain\ValueObject\OrderId;
 use App\Shared\Domain\ValueObject\RestaurantId;
 use App\Shared\Domain\ValueObject\UserId;
+use App\Sale\Domain\ValueObject\SaleTicketNumber;
 
 final class CreateSale
 {
@@ -26,11 +27,12 @@ final class CreateSale
         $orderIdVO = OrderId::create($orderId);
         $userIdVO = UserId::create($userId);
         $totalVO = SaleTotal::create($total);
-
+        $ticketNumberVO = SaleTicketNumber::create($this->saleRepository->nextTicketNumberByRestaurant($restaurantId),);
         $sale = Sale::dddCreate(
             $restaurantIdVO,
             $orderIdVO,
             $userIdVO,
+            $ticketNumberVO,
             DomainDateTime::now(),
             $totalVO,
         );

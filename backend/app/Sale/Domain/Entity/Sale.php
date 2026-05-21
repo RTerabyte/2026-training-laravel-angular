@@ -28,6 +28,7 @@ class Sale
         RestaurantId $restaurantId,
         OrderId $orderId,
         UserId $userId,
+        SaleTicketNumber $ticketNumber,
         DomainDateTime $valueDate,
         SaleTotal $total,
     ): self {
@@ -38,7 +39,7 @@ class Sale
             $restaurantId,
             $orderId,
             $userId,
-            null,
+            $ticketNumber,
             $valueDate,
             $total,
             $now,
