@@ -46,9 +46,15 @@ final class EloquentSaleLineRepository implements SaleLineRepositoryInterface
      */
     public function findBySaleId(string $saleId): array
     {
-        $internalSaleId = DB::table('sales')
+        $internalSaleId = ctype_digit($saleId)
+            ? (int) $saleId
+            : DB::table('sales')
             ->where('uuid', $saleId)
             ->value('id');
+
+        if ($internalSaleId === null) {
+            return [];
+        }
 
         $models = $this->model->newQuery()
             ->where('sale_id', $internalSaleId)
