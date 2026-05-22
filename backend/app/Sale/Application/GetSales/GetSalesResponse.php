@@ -7,14 +7,14 @@ use App\Sale\Application\GetSale\GetSaleResponse;
 final readonly class GetSalesResponse
 {
     /**
-     * @param array<int, GetSaleResponse> $sales
+     * @param  array<int, GetSaleResponse>  $sales
      */
     public function __construct(
         public array $sales,
     ) {}
 
     /**
-     * @param array<int, GetSaleResponse> $sales
+     * @param  array<int, GetSaleResponse>  $sales
      */
     public static function create(array $sales): self
     {

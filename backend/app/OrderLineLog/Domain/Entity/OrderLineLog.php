@@ -61,50 +61,62 @@ class OrderLineLog
     {
         return $this->id;
     }
+
     public function restaurantId(): RestaurantId
     {
         return $this->restaurantId;
     }
+
     public function orderId(): OrderId
     {
         return $this->orderId;
     }
+
     public function orderLineId(): ?string
     {
         return $this->orderLineId;
     }
+
     public function userId(): UserId
     {
         return $this->userId;
     }
+
     public function action(): string
     {
         return $this->action;
     }
+
     public function oldQuantity(): ?int
     {
         return $this->oldQuantity;
     }
+
     public function newQuantity(): ?int
     {
         return $this->newQuantity;
     }
+
     public function oldPrice(): ?int
     {
         return $this->oldPrice;
     }
+
     public function newPrice(): ?int
     {
         return $this->newPrice;
     }
+
     public function reason(): ?string
     {
         return $this->reason;
     }
+
     public function createdAt(): DomainDateTime
     {
         return $this->createdAt;
     }
+
     public function updatedAt(): DomainDateTime
     {
         return $this->updatedAt;

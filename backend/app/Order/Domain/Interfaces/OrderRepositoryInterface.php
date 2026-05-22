@@ -14,12 +14,13 @@ interface OrderRepositoryInterface
      * @return Order[]
      */
     public function findAll(): array;
-        /**
+
+    /**
      * @return Order[]
      */
     public function findOpenByRestaurant(string $restaurantId): array;
 
     public function findOpenByTable(string $restaurantId, string $tableId): ?Order;
-    
+
     public function delete(Order $order): void;
 }

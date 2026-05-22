@@ -2,53 +2,37 @@
 
 namespace App\Providers;
 
-use App\SaleLine\Domain\Interfaces\SaleLineRepositoryInterface;
-use App\SaleLine\Infrastructure\Persistence\Repositories\EloquentSaleLineRepository;
-
-use App\Sale\Domain\Interfaces\SaleRepositoryInterface;
-use App\Sale\Infrastructure\Persistence\Repositories\EloquentSaleRepository;
-    
-use App\OrderLineLog\Domain\Interfaces\OrderLineLogRepositoryInterface;
-use App\OrderLineLog\Infrastructure\Persistence\Repositories\EloquentOrderLineLogRepository;
-
-use App\OrderLine\Domain\Interfaces\OrderLineRepositoryInterface;
-use App\OrderLine\Infrastructure\Persistence\Repositories\EloquentOrderLineRepository;
-
-
-use App\Order\Domain\Interfaces\OrderRepositoryInterface;
-use App\Order\Infrastructure\Persistence\Repositories\EloquentOrderRepository;
-
 use App\Family\Domain\Interfaces\FamilyRepositoryInterface;
 use App\Family\Infrastructure\Persistence\Repositories\EloquentFamilyRepository;
-
+use App\Order\Domain\Interfaces\OrderRepositoryInterface;
+use App\Order\Infrastructure\Persistence\Repositories\EloquentOrderRepository;
+use App\OrderLine\Domain\Interfaces\OrderLineRepositoryInterface;
+use App\OrderLine\Infrastructure\Persistence\Repositories\EloquentOrderLineRepository;
+use App\OrderLineLog\Domain\Interfaces\OrderLineLogRepositoryInterface;
+use App\OrderLineLog\Infrastructure\Persistence\Repositories\EloquentOrderLineLogRepository;
 use App\Product\Domain\Interfaces\ProductRepositoryInterface;
 use App\Product\Infrastructure\Persistence\Repositories\EloquentProductRepository;
-
 use App\Restaurant\Domain\Interfaces\RestaurantRepositoryInterface;
 use App\Restaurant\Infrastructure\Persistence\Repositories\EloquentRestaurantRepository;
-
+use App\Sale\Domain\Interfaces\SaleRepositoryInterface;
+use App\Sale\Infrastructure\Persistence\Repositories\EloquentSaleRepository;
+use App\SaleLine\Domain\Interfaces\SaleLineRepositoryInterface;
+use App\SaleLine\Infrastructure\Persistence\Repositories\EloquentSaleLineRepository;
 use App\Shared\Domain\Interfaces\PasswordHasherInterface;
 use App\Shared\Infrastructure\Services\LaravelPasswordHasher;
-
 use App\Table\Domain\Interfaces\TableRepositoryInterface;
 use App\Table\Infrastructure\Persistence\Repositories\EloquentTableRepository;
-
 use App\Tax\Domain\Interfaces\TaxRepositoryInterface;
 use App\Tax\Infrastructure\Persistence\Repositories\EloquentTaxRepository;
-
 use App\User\Domain\Interfaces\UserRepositoryInterface;
 use App\User\Domain\Interfaces\UserTokenGeneratorInterface;
 use App\User\Domain\Interfaces\UserTokenRevokerInterface;
 use App\User\Infrastructure\Persistence\Repositories\EloquentUserRepository;
-
 use App\User\Infrastructure\Services\SanctumUserTokenGenerator;
 use App\User\Infrastructure\Services\SanctumUserTokenRevoker;
-
 use App\Zone\Domain\Interfaces\ZoneRepositoryInterface;
 use App\Zone\Infrastructure\Persistence\Repositories\EloquentZoneRepository;
-
 use Illuminate\Support\ServiceProvider;
-
 
 class AppServiceProvider extends ServiceProvider
 {

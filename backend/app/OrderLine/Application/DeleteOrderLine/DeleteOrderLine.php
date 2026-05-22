@@ -21,7 +21,7 @@ final class DeleteOrderLine
             throw OrderLineNotFoundException::withId($id);
         }
 
-          // LOG
+        // LOG
         ($this->createOrderLineLog)(
             $orderLine->restaurantId()->value(),
             $orderLine->orderId()->value(),

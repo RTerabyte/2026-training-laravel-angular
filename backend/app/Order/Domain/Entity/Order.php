@@ -6,10 +6,9 @@ use App\Order\Domain\ValueObject\Diners;
 use App\Order\Domain\ValueObject\OrderStatus;
 use App\Shared\Domain\ValueObject\DomainDateTime;
 use App\Shared\Domain\ValueObject\RestaurantId;
-use App\Shared\Domain\ValueObject\Uuid;
 use App\Shared\Domain\ValueObject\TableId;
 use App\Shared\Domain\ValueObject\UserId;
-
+use App\Shared\Domain\ValueObject\Uuid;
 
 class Order
 {
@@ -127,6 +126,7 @@ class Order
     {
         return $this->createdAt;
     }
+
     public function updatedAt(): DomainDateTime
     {
         return $this->updatedAt;

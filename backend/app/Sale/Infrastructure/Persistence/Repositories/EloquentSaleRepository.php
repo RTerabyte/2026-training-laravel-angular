@@ -60,7 +60,7 @@ final class EloquentSaleRepository implements SaleRepositoryInterface
             ->get();
 
         return $models
-            ->map(fn(EloquentSale $model) => $this->mapToEntity($model))
+            ->map(fn (EloquentSale $model) => $this->mapToEntity($model))
             ->all();
     }
 
@@ -76,7 +76,7 @@ final class EloquentSaleRepository implements SaleRepositoryInterface
             ->get();
 
         return $models
-            ->map(fn(EloquentSale $model) => $this->mapToEntity($model))
+            ->map(fn (EloquentSale $model) => $this->mapToEntity($model))
             ->all();
     }
 
@@ -96,7 +96,7 @@ final class EloquentSaleRepository implements SaleRepositoryInterface
             ->get();
 
         return $models
-            ->map(fn(EloquentSale $model) => $this->mapToEntity($model))
+            ->map(fn (EloquentSale $model) => $this->mapToEntity($model))
             ->all();
     }
 
@@ -129,7 +129,7 @@ final class EloquentSaleRepository implements SaleRepositoryInterface
             ->get();
 
         return $models
-            ->map(fn(EloquentSale $model) => $this->mapToEntity($model))
+            ->map(fn (EloquentSale $model) => $this->mapToEntity($model))
             ->all();
     }
 
