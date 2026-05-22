@@ -27,7 +27,7 @@
       <span>#{{ sale.ticket_number || "-" }}</span>
       <span>{{ formatDate(sale.value_date) }}</span>
       <span>{{ getUserName(sale.user_id) }}</span>
-      <strong>{{ sale.total / 100 | number: "1.2-2" }} €</strong>
+      <strong>{{ formatMoney(sale.total) }}</strong>
       <ion-button
         size="small"
         fill="clear"
@@ -38,15 +38,43 @@
       </ion-button>
     </div>
   </div>
-  <div class="sale-detail-backdrop" *ngIf="showSaleDetailModal && selectedSale">
+  <div
+    class="sale-detail-backdrop"
+    *ngIf="showSaleDetailModal && selectedSale"
+    (click)="closeSaleDetailFromBackdrop($event)"
+  >
     <div class="sale-detail-modal">
       <h2>Venta #{{ selectedSale.ticket_number || "-" }}</h2>
 
-      <p>Fecha: {{ formatDate(selectedSale.value_date) }}</p>
-      <p>Usuario: {{ getUserName(selectedSale.user_id) }}</p>
-      <p>Total: {{ selectedSale.total / 100 | number: "1.2-2" }} €</p>
+      <p><strong>Fecha:</strong> {{ formatDate(selectedSale.value_date) }}</p>
+      <p><strong>Usuario:</strong> {{ getUserName(selectedSale.user_id) }}</p>
+      <p><strong>Total:</strong> {{ formatMoney(selectedSale.total) }}</p>
 
-      <ion-button fill="outline" (click)="showSaleDetailModal = false">
+      <div class="sale-lines-detail">
+        <h3>Productos vendidos</h3>
+
+        <p *ngIf="isLoadingSaleLines">Cargando líneas...</p>
+
+        <p *ngIf="!isLoadingSaleLines && selectedSaleLines.length === 0">
+          Esta venta no tiene líneas.
+        </p>
+
+        <div class="sale-line-item" *ngFor="let line of selectedSaleLines">
+          <div>
+            <strong>{{ getProductName(line.order_line_id) }}</strong>
+            <p>Añadido por: {{ getUserName(line.user_id) }}</p>
+          </div>
+
+          <div>
+            <span>Cantidad: {{ line.quantity }}</span>
+            <span>Precio unitario: {{ formatMoney(line.price) }}</span>
+            <span>IVA: {{ line.tax_percentage }}%</span>
+            <strong>Subtotal: {{ formatMoney(getLineSubtotal(line)) }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <ion-button fill="outline" (click)="closeSaleDetail()">
         Cerrar
       </ion-button>
     </div>

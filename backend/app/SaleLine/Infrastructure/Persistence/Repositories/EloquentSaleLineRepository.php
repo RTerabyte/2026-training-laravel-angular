@@ -49,8 +49,8 @@ final class EloquentSaleLineRepository implements SaleLineRepositoryInterface
         $internalSaleId = ctype_digit($saleId)
             ? (int) $saleId
             : DB::table('sales')
-            ->where('uuid', $saleId)
-            ->value('id');
+                ->where('uuid', $saleId)
+                ->value('id');
 
         if ($internalSaleId === null) {
             return [];

@@ -5,6 +5,7 @@ import { IonButton } from '@ionic/angular/standalone';
 export interface CurrentOrderLine {
   id: string;
   product_id: string | number;
+  user_id: string | number;
   name: string;
   price: number;
   quantity: number;
