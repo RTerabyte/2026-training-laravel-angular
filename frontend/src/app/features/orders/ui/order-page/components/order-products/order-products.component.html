@@ -3,8 +3,10 @@
 
   <div class="families-list">
     <ion-button
+      class="family-button"
       size="small"
-      [fill]="selectedFamilyId === null ? 'solid' : 'outline'"
+      fill="clear"
+      [class.active]="selectedFamilyId === null"
       (click)="selectFamily(null)"
     >
       Todas
@@ -12,8 +14,10 @@
 
     <ion-button
       *ngFor="let family of families"
+      class="family-button"
       size="small"
-      [fill]="selectedFamilyId === family.id ? 'solid' : 'outline'"
+      fill="clear"
+      [class.active]="selectedFamilyId === family.id"
       (click)="selectFamily(family.id)"
     >
       {{ family.name }}
@@ -41,7 +45,7 @@
 
         <ion-card-content>
           <h5>{{ product.name }}</h5>
-          <p>{{ product.price / 100 | number: '1.2-2' }} €</p>
+          <p>{{ product.price / 100 | number: "1.2-2" }} €</p>
         </ion-card-content>
       </ion-card>
     </div>
