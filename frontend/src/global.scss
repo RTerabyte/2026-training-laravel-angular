@@ -19,26 +19,50 @@
 body.dark {
   --ion-background-color: #121212;
   --ion-text-color: #ffffff;
+
   --app-background: #121212;
   --app-surface: #1e1e1e;
   --app-surface-soft: #2a2a2a;
   --app-text: #ffffff;
   --app-muted: #d1d5db;
   --app-border: #2f2f2f;
-  --app-primary: #7c3aed;
+
+  --app-primary: #2f80a5;
+  --app-primary-soft: rgba(47, 128, 165, 0.22);
+  --app-primary-dark: #25677f;
+
+  --app-free: #15803d;
+  --app-free-soft: rgba(21, 128, 61, 0.22);
+
+  --app-occupied: #991b1b;
+  --app-occupied-soft: rgba(153, 27, 27, 0.24);
+
+  --app-shadow: 0 16px 35px rgba(0, 0, 0, 0.35);
 }
 
 /* LIGHT MODE */
 body.light {
   --ion-background-color: #f4f4f5;
   --ion-text-color: #111827;
+
   --app-background: #f4f4f5;
   --app-surface: #ffffff;
   --app-surface-soft: #e5e7eb;
   --app-text: #111827;
   --app-muted: #4b5563;
   --app-border: #d1d5db;
-  --app-primary: #7c3aed;
+
+  --app-primary: #2f80a5;
+  --app-primary-soft: #e0f2fe;
+  --app-primary-dark: #25677f;
+
+  --app-free: #15803d;
+  --app-free-soft: #dcfce7;
+
+  --app-occupied: #991b1b;
+  --app-occupied-soft: #fee2e2;
+
+  --app-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
 }
 
 body {
@@ -123,11 +147,11 @@ body.dark ion-alert .alert-radio-icon {
 }
 
 body.dark ion-alert .alert-radio-inner {
-  background: #7c3aed !important;
+  background: var(--app-primary) !important;
 }
 
 body.dark ion-alert .alert-button {
-  color: #7c3aed !important;
+  color: var(--app-primary) !important;
 }
 
 @media print {

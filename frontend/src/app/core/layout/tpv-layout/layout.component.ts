@@ -39,6 +39,10 @@ export class LayoutComponent implements OnInit {
     this.router.navigate(['/tpv/settings']);
   }
 
+  goToSales(): void {
+  this.router.navigate(['/tpv/sales']);
+}
+
   isAdmin(): boolean {
     return this.user?.role?.toLowerCase?.() === 'admin';
   }

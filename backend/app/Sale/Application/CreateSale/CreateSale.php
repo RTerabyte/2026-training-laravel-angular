@@ -4,6 +4,7 @@ namespace App\Sale\Application\CreateSale;
 
 use App\Sale\Domain\Entity\Sale;
 use App\Sale\Domain\Interfaces\SaleRepositoryInterface;
+use App\Sale\Domain\ValueObject\SaleTicketNumber;
 use App\Sale\Domain\ValueObject\SaleTotal;
 use App\Shared\Domain\ValueObject\DomainDateTime;
 use App\Shared\Domain\ValueObject\OrderId;
@@ -26,11 +27,12 @@ final class CreateSale
         $orderIdVO = OrderId::create($orderId);
         $userIdVO = UserId::create($userId);
         $totalVO = SaleTotal::create($total);
-
+        $ticketNumberVO = SaleTicketNumber::create($this->saleRepository->nextTicketNumberByRestaurant($restaurantId));
         $sale = Sale::dddCreate(
             $restaurantIdVO,
             $orderIdVO,
             $userIdVO,
+            $ticketNumberVO,
             DomainDateTime::now(),
             $totalVO,
         );

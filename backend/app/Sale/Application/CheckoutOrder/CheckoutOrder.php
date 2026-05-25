@@ -62,7 +62,7 @@ final class CheckoutOrder
                 $restaurantIdVO,
                 $saleIdVO,
                 OrderLineId::create($orderLine->id()->value()),
-                $userIdVO,
+                UserId::create($orderLine->userId()->value()),
                 SaleLineQuantity::create($orderLine->quantity()->value()),
                 SaleLinePrice::create($orderLine->price()->value()),
                 SaleLineTaxPercentage::create($orderLine->taxPercentage()->value()),
@@ -86,7 +86,8 @@ final class CheckoutOrder
             $restaurantId,
             $orderId,
             $userId,
+            $saleResponse->ticketNumber,
             $total,
         );
     }
-} 
+}

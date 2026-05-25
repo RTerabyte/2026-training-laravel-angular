@@ -88,6 +88,7 @@ export class OrdersComponent implements OnInit {
         this.products = products;
         this.orderLines = orderLines;
         this.families = families;
+        this.restoreSentLines();
         this.loadTableName();
         this.isLoading = false;
       },
@@ -155,20 +156,24 @@ export class OrdersComponent implements OnInit {
       });
   }
   getEditableOrderLines(): CurrentOrderLine[] {
-    if (!this.isSentToKitchen) {
-      return this.orderLines;
-    }
-
-    return this.orderLines.filter(
-      (line) => !this.sentLineIds.includes(line.id),
-    );
+    return this.orderLines.filter((line) => {
+      return this.canEditLine(line);
+    });
   }
 
   increaseLine(line: CurrentOrderLine): void {
+    if (!this.canEditLine(line)) {
+      return;
+    }
+
     this.changeLineQuantity(line, line.quantity + 1);
   }
 
   decreaseLine(line: CurrentOrderLine): void {
+    if (!this.canEditLine(line)) {
+      return;
+    }
+
     if (line.quantity <= 1) {
       this.deleteLine(line);
       return;
@@ -195,6 +200,10 @@ export class OrdersComponent implements OnInit {
   }
 
   deleteLine(line: CurrentOrderLine): void {
+    if (!this.canEditLine(line)) {
+      return;
+    }
+
     this.currentOrderFacade.deleteLine(line.id).subscribe({
       next: () => {
         this.orderLines = this.orderLines.filter((item) => item.id !== line.id);
@@ -245,8 +254,14 @@ export class OrdersComponent implements OnInit {
       return;
     }
 
+    const newSentLineIds = this.orderLines.map((line) => line.id);
+
+    this.sentLineIds = Array.from(
+      new Set([...this.sentLineIds, ...newSentLineIds]),
+    );
+
     this.isSentToKitchen = true;
-    this.sentLineIds = this.orderLines.map((line) => line.id);
+    this.persistSentLines();
   }
   openPrebill(): void {
     if (this.orderLines.length === 0) {
@@ -258,5 +273,49 @@ export class OrdersComponent implements OnInit {
   goBackToTables(): void {
     this.showFinalTicketModal = false;
     this.router.navigate(['/tpv/tables']);
+  }
+
+  private getSentLinesStorageKey(): string {
+    return `order_sent_lines_${this.orderId}`;
+  }
+
+  private restoreSentLines(): void {
+    if (!this.orderId) {
+      return;
+    }
+
+    const storedValue = localStorage.getItem(this.getSentLinesStorageKey());
+
+    if (!storedValue) {
+      this.sentLineIds = [];
+      this.isSentToKitchen = false;
+      return;
+    }
+
+    this.sentLineIds = JSON.parse(storedValue);
+    this.isSentToKitchen = this.sentLineIds.length > 0;
+  }
+
+  private persistSentLines(): void {
+    if (!this.orderId) {
+      return;
+    }
+
+    localStorage.setItem(
+      this.getSentLinesStorageKey(),
+      JSON.stringify(this.sentLineIds),
+    );
+  }
+
+  private isLineSent(line: CurrentOrderLine): boolean {
+    return this.sentLineIds.includes(line.id);
+  }
+
+  private isLineFromCurrentUser(line: CurrentOrderLine): boolean {
+    return String(line.user_id) === String(this.user?.id);
+  }
+
+  private canEditLine(line: CurrentOrderLine): boolean {
+    return this.isLineFromCurrentUser(line) && !this.isLineSent(line);
   }
 }

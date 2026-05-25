@@ -48,6 +48,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'sales',
+        loadComponent: () =>
+          import('./features/sales/ui/sales-page/sales.component').then(
+            (m) => m.SalesComponent,
+          ),
+      },
+      {
         path: '',
         redirectTo: 'tables',
         pathMatch: 'full',

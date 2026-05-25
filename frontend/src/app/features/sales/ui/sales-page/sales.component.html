@@ -1,0 +1,82 @@
+<ion-content class="ion-padding">
+  <div class="sales-header">
+    <div>
+      <h2>Ventas</h2>
+      <p>Listado de ventas cerradas</p>
+    </div>
+
+    <ion-button fill="outline" (click)="loadSales()">Actualizar</ion-button>
+  </div>
+
+  <p *ngIf="isLoading">Cargando ventas...</p>
+
+  <div *ngIf="!isLoading && sales.length === 0" class="empty-state">
+    No hay ventas registradas todavía.
+  </div>
+
+  <div *ngIf="!isLoading && sales.length > 0" class="sales-table">
+    <div class="sales-row sales-row-header">
+      <span>Ticket</span>
+      <span>Fecha</span>
+      <span>Usuario</span>
+      <span>Total</span>
+      <span>Inspeccionar</span>
+    </div>
+
+    <div *ngFor="let sale of sales" class="sales-row">
+      <span>#{{ sale.ticket_number || "-" }}</span>
+      <span>{{ formatDate(sale.value_date) }}</span>
+      <span>{{ getUserName(sale.user_id) }}</span>
+      <strong>{{ formatMoney(sale.total) }}</strong>
+      <ion-button
+        size="small"
+        fill="clear"
+        aria-label="Ver venta"
+        (click)="openSaleDetail(sale)"
+      >
+        <ion-icon name="eye-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+  <div
+    class="sale-detail-backdrop"
+    *ngIf="showSaleDetailModal && selectedSale"
+    (click)="closeSaleDetailFromBackdrop($event)"
+  >
+    <div class="sale-detail-modal">
+      <h2>Venta #{{ selectedSale.ticket_number || "-" }}</h2>
+
+      <p><strong>Fecha:</strong> {{ formatDate(selectedSale.value_date) }}</p>
+      <p><strong>Usuario:</strong> {{ getUserName(selectedSale.user_id) }}</p>
+      <p><strong>Total:</strong> {{ formatMoney(selectedSale.total) }}</p>
+
+      <div class="sale-lines-detail">
+        <h3>Productos vendidos</h3>
+
+        <p *ngIf="isLoadingSaleLines">Cargando líneas...</p>
+
+        <p *ngIf="!isLoadingSaleLines && selectedSaleLines.length === 0">
+          Esta venta no tiene líneas.
+        </p>
+
+        <div class="sale-line-item" *ngFor="let line of selectedSaleLines">
+          <div>
+            <strong>{{ getProductName(line.order_line_id) }}</strong>
+            <p>Añadido por: {{ getUserName(line.user_id) }}</p>
+          </div>
+
+          <div>
+            <span>Cantidad: {{ line.quantity }}</span>
+            <span>Precio unitario: {{ formatMoney(line.price) }}</span>
+            <span>IVA: {{ line.tax_percentage }}%</span>
+            <strong>Subtotal: {{ formatMoney(getLineSubtotal(line)) }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <ion-button fill="outline" (click)="closeSaleDetail()">
+        Cerrar
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

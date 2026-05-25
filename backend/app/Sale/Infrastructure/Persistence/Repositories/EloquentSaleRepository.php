@@ -155,4 +155,13 @@ final class EloquentSaleRepository implements SaleRepositoryInterface
             $model->updated_at->toDateTimeImmutable(),
         );
     }
+
+    public function nextTicketNumberByRestaurant(string $restaurantId): int
+    {
+        $lastTicketNumber = $this->model->newQuery()
+            ->where('restaurant_id', $restaurantId)
+            ->max('ticket_number');
+
+        return ((int) $lastTicketNumber) + 1;
+    }
 }

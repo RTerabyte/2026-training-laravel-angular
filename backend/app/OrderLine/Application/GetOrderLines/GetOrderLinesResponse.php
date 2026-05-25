@@ -7,14 +7,14 @@ use App\OrderLine\Application\GetOrderLine\GetOrderLineResponse;
 final readonly class GetOrderLinesResponse
 {
     /**
-     * @param array<int, GetOrderLineResponse> $orderLines
+     * @param  array<int, GetOrderLineResponse>  $orderLines
      */
     public function __construct(
         public array $orderLines,
     ) {}
 
     /**
-     * @param array<int, GetOrderLineResponse> $orderLines
+     * @param  array<int, GetOrderLineResponse>  $orderLines
      */
     public static function create(array $orderLines): self
     {

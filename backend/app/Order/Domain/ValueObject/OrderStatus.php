@@ -7,7 +7,9 @@ use InvalidArgumentException;
 final readonly class OrderStatus
 {
     private const OPEN = 'open';
+
     private const CANCELLED = 'cancelled';
+
     private const INVOICED = 'invoiced';
 
     private const ALLOWED = [
@@ -24,7 +26,7 @@ final readonly class OrderStatus
     {
         $value = strtolower(trim($value));
 
-        if (!in_array($value, self::ALLOWED, true)) {
+        if (! in_array($value, self::ALLOWED, true)) {
             throw new InvalidArgumentException('Invalid order status.');
         }
 

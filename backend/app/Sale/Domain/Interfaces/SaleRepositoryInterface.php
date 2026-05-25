@@ -37,4 +37,6 @@ interface SaleRepositoryInterface
         string $date,
         string $shift,
     ): array;
+
+    public function nextTicketNumberByRestaurant(string $restaurantId): int;
 }

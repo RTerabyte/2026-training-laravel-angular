@@ -5,14 +5,14 @@ namespace App\SaleLine\Application\GetSaleLinesBySale;
 final readonly class GetSaleLinesBySaleResponse
 {
     /**
-     * @param array<int, GetSaleLineResponse> $saleLines
+     * @param  array<int, GetSaleLineResponse>  $saleLines
      */
     public function __construct(
         public array $saleLines,
     ) {}
 
     /**
-     * @param array<int, GetSaleLineResponse> $saleLines
+     * @param  array<int, GetSaleLineResponse>  $saleLines
      */
     public static function create(array $saleLines): self
     {

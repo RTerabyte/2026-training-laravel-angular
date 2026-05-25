@@ -2,15 +2,15 @@
 
 namespace App\OrderLine\Domain\Entity;
 
+use App\OrderLine\Domain\ValueObject\OrderLinePrice;
+use App\OrderLine\Domain\ValueObject\OrderLineQuantity;
+use App\OrderLine\Domain\ValueObject\OrderLineTaxPercentage;
 use App\Shared\Domain\ValueObject\DomainDateTime;
-use App\Shared\Domain\ValueObject\Uuid;
-use App\Shared\Domain\ValueObject\RestaurantId;
 use App\Shared\Domain\ValueObject\OrderId;
 use App\Shared\Domain\ValueObject\ProductId;
+use App\Shared\Domain\ValueObject\RestaurantId;
 use App\Shared\Domain\ValueObject\UserId;
-use App\OrderLine\Domain\ValueObject\OrderLineQuantity;
-use App\OrderLine\Domain\ValueObject\OrderLinePrice;
-use App\OrderLine\Domain\ValueObject\OrderLineTaxPercentage;
+use App\Shared\Domain\ValueObject\Uuid;
 
 class OrderLine
 {
@@ -78,7 +78,7 @@ class OrderLine
         );
     }
 
-public function id(): Uuid
+    public function id(): Uuid
     {
         return $this->id;
     }

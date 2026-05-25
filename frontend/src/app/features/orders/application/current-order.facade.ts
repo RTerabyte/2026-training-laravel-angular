@@ -61,6 +61,7 @@ export class CurrentOrderFacade {
             observer.next({
               id: response.id,
               product_id: product.id,
+              user_id: user.id,
               name: product.name,
               price: product.price,
               quantity: 1,
@@ -151,6 +152,7 @@ export class CurrentOrderFacade {
               return {
                 id: line.id,
                 product_id: line.product_id,
+                user_id: line.user_id,
                 name: product?.name ?? 'Producto',
                 price: line.price,
                 quantity: line.quantity,

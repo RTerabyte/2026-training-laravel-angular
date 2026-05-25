@@ -64,7 +64,7 @@ final class EloquentOrderRepository implements OrderRepositoryInterface
         $models = $this->model->newQuery()->get();
 
         return $models
-            ->map(fn(EloquentOrder $model) => $this->mapToEntity($model))
+            ->map(fn (EloquentOrder $model) => $this->mapToEntity($model))
             ->all();
     }
 
@@ -80,7 +80,7 @@ final class EloquentOrderRepository implements OrderRepositoryInterface
             ->get();
 
         return $models
-            ->map(fn(EloquentOrder $model) => $this->mapToEntity($model))
+            ->map(fn (EloquentOrder $model) => $this->mapToEntity($model))
             ->all();
     }
 
@@ -102,9 +102,6 @@ final class EloquentOrderRepository implements OrderRepositoryInterface
 
         return $this->mapToEntity($model);
     }
-
-
-
 
     public function delete(Order $order): void
     {
