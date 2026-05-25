@@ -1,6 +1,24 @@
 <ion-content class="ion-padding">
   <h2>Pedido abierto</h2>
 
+  <div
+    class="empty-order-actions"
+    *ngIf="!isLoading && currentOrder && orderLines.length === 0"
+  >
+    <div>
+      <strong>Mesa sin productos</strong>
+      <p>Si los comensales se han ido sin pedir, puedes liberar la mesa.</p>
+    </div>
+
+    <button
+      type="button"
+      class="release-table-button"
+      (click)="openCancelOrderModal()"
+    >
+      Liberar mesa
+    </button>
+  </div>
+
   <p *ngIf="isLoading">Cargando pedido...</p>
 
   <div class="orders-layout" *ngIf="!isLoading">
@@ -46,4 +64,36 @@
     [openedAt]="currentOrder?.opened_at ?? null"
     (closed)="goBackToTables()"
   ></app-final-ticket-modal>
+
+  <div
+    class="cancel-order-backdrop"
+    *ngIf="showCancelOrderModal"
+    (click)="closeCancelOrderModalFromBackdrop($event)"
+  >
+    <div class="cancel-order-modal" (click)="$event.stopPropagation()">
+      <div class="cancel-order-header">
+        <span>Liberar mesa</span>
+
+        <button type="button" (click)="closeCancelOrderModal()">×</button>
+      </div>
+
+      <h2>¿Cancelar pedido?</h2>
+
+      <p>
+        Esta mesa no tiene productos añadidos. Si continúas, el pedido se
+        marcará como cancelado y la mesa volverá a estar libre.
+      </p>
+
+      <div class="cancel-order-actions">
+
+        <button
+          type="button"
+          class="danger-button"
+          (click)="$event.stopPropagation(); confirmCancelOrder()"
+        >
+          Liberar mesa
+        </button>
+      </div>
+    </div>
+  </div>
 </ion-content>

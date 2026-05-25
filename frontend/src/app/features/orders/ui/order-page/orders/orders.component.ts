@@ -9,7 +9,7 @@ import {
   CurrentOrderLine,
   OrderSummaryComponent,
 } from '../components/order-summary/order-summary.component';
-import { Order } from '../../../infrastructure/order.service';
+import { Order, OrderService } from '../../../infrastructure/order.service';
 import { CurrentOrderFacade } from '../../../application/current-order.facade';
 import { Family } from '../../../../catalog/domain/family.model';
 import {
@@ -60,12 +60,15 @@ export class OrdersComponent implements OnInit {
   showFinalTicketModal = false;
   finalTicketPayments: PaymentLine[] = [];
 
+  showCancelOrderModal = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
     private currentOrderFacade: CurrentOrderFacade,
     private tableService: TableService,
+    private orderService: OrderService,
   ) {}
 
   ngOnInit(): void {
@@ -100,26 +103,27 @@ export class OrdersComponent implements OnInit {
   }
 
   loadTableName(): void {
-    if (!this.currentOrder) {
-      return;
-    }
-
-    this.tableService.getTables().subscribe({
-      next: (response: any) => {
-        const tables = response.tables ?? response.data ?? response;
-
-        const table = tables.find(
-          (item: any) =>
-            String(item.id) === String(this.currentOrder?.table_id),
-        );
-
-        this.tableName = table?.name ?? '';
-      },
-      error: (error: unknown) => {
-        console.log('ERROR loading table name', error);
-      },
-    });
+  if (!this.currentOrder) {
+    return;
   }
+
+  const currentOrder = this.currentOrder;
+
+  this.tableService.getTables().subscribe({
+    next: (response: any) => {
+      const tables = response.tables ?? response.data ?? response;
+
+      const table = tables.find((item: any) => {
+        return String(item.id) === String(currentOrder.table_id);
+      });
+
+      this.tableName = table?.name ?? '';
+    },
+    error: (error: unknown) => {
+      console.log('ERROR loading table name', error);
+    },
+  });
+}
 
   addProduct(product: Product): void {
     if (!this.currentOrder || !this.user) {
@@ -274,6 +278,53 @@ export class OrdersComponent implements OnInit {
     this.showFinalTicketModal = false;
     this.router.navigate(['/tpv/tables']);
   }
+
+  openCancelOrderModal(): void {
+    if (this.orderLines.length > 0) {
+      return;
+    }
+
+    this.showCancelOrderModal = true;
+  }
+
+  closeCancelOrderModal(): void {
+    this.showCancelOrderModal = false;
+  }
+
+  closeCancelOrderModalFromBackdrop(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    this.closeCancelOrderModal();
+  }
+
+  confirmCancelOrder(): void {
+  if (!this.currentOrder || !this.user || this.orderLines.length > 0) {
+    return;
+  }
+
+  const payload = {
+    status: 'cancelled',
+    closed_by_user_id: String(this.user.id),
+    diners: Number(this.currentOrder.diners),
+    closed_at: new Date().toISOString(),
+  };
+
+  console.log('PAYLOAD LIBERAR MESA', payload);
+
+  this.orderService.updateOrder(this.currentOrder.id, payload).subscribe({
+    next: () => {
+      localStorage.removeItem(this.getSentLinesStorageKey());
+
+      this.showCancelOrderModal = false;
+      this.router.navigate(['/tpv/tables']);
+    },
+    error: (error: unknown) => {
+      console.log('ERROR liberando mesa', error);
+    },
+  });
+}
 
   private getSentLinesStorageKey(): string {
     return `order_sent_lines_${this.orderId}`;

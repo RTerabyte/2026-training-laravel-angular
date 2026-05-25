@@ -143,22 +143,26 @@
       </div>
 
       <div class="manual-diners">
-  <label>Más comensales</label>
+        <label>Más comensales</label>
 
-  <div class="diners-stepper">
-    <button type="button" (click)="decreaseDiners()">−</button>
+        <div class="diners-stepper">
+          <button type="button" (click)="decreaseDiners()">−</button>
 
-    <div class="diners-value">
-      {{ selectedDiners }}
-    </div>
+          <div class="diners-value">
+            {{ selectedDiners }}
+          </div>
 
-    <button type="button" (click)="increaseDiners()">+</button>
+          <button type="button" (click)="increaseDiners()">+</button>
 
-    <button type="button" class="plus-five-button" (click)="increaseDiners(5)">
-      +5
-    </button>
-  </div>
-</div>
+          <button
+            type="button"
+            class="plus-five-button"
+            (click)="increaseDiners(5)"
+          >
+            +5
+          </button>
+        </div>
+      </div>
 
       <div class="diners-actions">
         <button

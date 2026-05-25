@@ -1,6 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse, BaseApiService } from '../../../shared/data-access/base-api.service';
+import {
+  ApiResponse,
+  BaseApiService,
+} from '../../../shared/data-access/base-api.service';
 
 export interface Order {
   id: string;
@@ -42,9 +45,14 @@ export class OrderService extends BaseApiService {
     return this.httpCall(`${this.endpoint}/${id}`, order, 'put');
   }
 
+  cancelOrder(id: string, payload: any): Observable<ApiResponse> {
+    return this.httpCall(`${this.endpoint}/${id}`, payload, 'put');
+  }
+
   checkoutOrder(id: string, payload: any): Observable<ApiResponse> {
     return this.httpCall(`${this.endpoint}/${id}/checkout`, payload, 'post');
   }
+
   getOpenOrders(restaurantId: string | number): Observable<ApiResponse> {
     return this.httpCall(
       `${this.endpoint}/open?restaurant_id=${restaurantId}`,
@@ -52,5 +60,4 @@ export class OrderService extends BaseApiService {
       'get',
     );
   }
-  
 }

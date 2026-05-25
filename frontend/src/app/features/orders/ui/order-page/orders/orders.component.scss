@@ -15,3 +15,128 @@ app-order-summary {
   height: calc(100vh - 120px);
   z-index: 10;
 }
+
+.empty-order-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-bottom: 18px;
+  margin-right: 460px;
+  padding: 16px 18px;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 18px;
+  background: var(--app-warning-soft, rgba(245, 158, 11, 0.12));
+  color: var(--app-text);
+}
+
+.empty-order-actions strong {
+  font-size: 1rem;
+}
+
+.empty-order-actions p {
+  margin: 4px 0 0;
+  color: var(--app-muted);
+  font-size: 0.9rem;
+}
+
+.release-table-button {
+  height: 42px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 18px;
+  background: #ef4444;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.cancel-order-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.cancel-order-modal {
+  width: 420px;
+  max-width: 92vw;
+  padding: 22px;
+  border: 1px solid var(--app-border);
+  border-radius: 24px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  box-shadow: var(--app-shadow);
+}
+
+.cancel-order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+
+  color: var(--app-muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cancel-order-header button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--app-surface-soft);
+  color: var(--app-text);
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.cancel-order-modal h2 {
+  margin: 0;
+  font-size: 1.55rem;
+  font-weight: 900;
+}
+
+.cancel-order-modal p {
+  margin: 8px 0 20px;
+  color: var(--app-muted);
+  line-height: 1.45;
+}
+
+.cancel-order-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.secondary-button,
+.danger-button {
+  height: 42px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 18px;
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.secondary-button {
+  background: var(--app-surface-soft);
+  color: var(--app-text);
+}
+
+.danger-button {
+  background: #ef4444;
+  color: #ffffff;
+}
