@@ -47,11 +47,11 @@
             <ion-card-content>
               <div class="table-card-top">
                 <div class="table-icon">
-                  {{ table.status === 'free' ? '✓' : '●' }}
+                  {{ table.status === "free" ? "✓" : "●" }}
                 </div>
 
                 <span class="table-status">
-                  {{ table.status === 'free' ? 'Libre' : 'Ocupada' }}
+                  {{ table.status === "free" ? "Libre" : "Ocupada" }}
                 </span>
               </div>
 
@@ -61,7 +61,9 @@
               </div>
 
               <div class="table-action">
-                {{ table.status === 'free' ? 'Abrir pedido' : 'Continuar pedido' }}
+                {{
+                  table.status === "free" ? "Abrir pedido" : "Continuar pedido"
+                }}
               </div>
             </ion-card-content>
           </ion-card>
@@ -90,11 +92,11 @@
             <ion-card-content>
               <div class="table-card-top">
                 <div class="table-icon">
-                  {{ table.status === 'free' ? '✓' : '●' }}
+                  {{ table.status === "free" ? "✓" : "●" }}
                 </div>
 
                 <span class="table-status">
-                  {{ table.status === 'free' ? 'Libre' : 'Ocupada' }}
+                  {{ table.status === "free" ? "Libre" : "Ocupada" }}
                 </span>
               </div>
 
@@ -104,12 +106,77 @@
               </div>
 
               <div class="table-action">
-                {{ table.status === 'free' ? 'Abrir pedido' : 'Continuar pedido' }}
+                {{
+                  table.status === "free" ? "Abrir pedido" : "Continuar pedido"
+                }}
               </div>
             </ion-card-content>
           </ion-card>
         </div>
       </section>
     </ng-container>
+  </div>
+  <div
+    class="diners-backdrop"
+    *ngIf="showDinersModal && selectedTableToOpen"
+    (click)="closeDinersModalFromBackdrop($event)"
+  >
+    <div class="diners-modal">
+      <div class="diners-header">
+        <span>Abrir pedido</span>
+
+        <button type="button" (click)="closeDinersModal()">×</button>
+      </div>
+
+      <h2>{{ selectedTableToOpen.name }}</h2>
+      <p>Selecciona el número de comensales</p>
+
+      <div class="diners-grid">
+        <button
+          type="button"
+          *ngFor="let diner of quickDiners"
+          [class.active]="selectedDiners === diner"
+          (click)="selectDiners(diner)"
+        >
+          {{ diner }}
+        </button>
+      </div>
+
+      <div class="manual-diners">
+  <label>Más comensales</label>
+
+  <div class="diners-stepper">
+    <button type="button" (click)="decreaseDiners()">−</button>
+
+    <div class="diners-value">
+      {{ selectedDiners }}
+    </div>
+
+    <button type="button" (click)="increaseDiners()">+</button>
+
+    <button type="button" class="plus-five-button" (click)="increaseDiners(5)">
+      +5
+    </button>
+  </div>
+</div>
+
+      <div class="diners-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="closeDinersModal()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="confirm-button"
+          (click)="confirmOpenTable()"
+        >
+          Abrir pedido
+        </button>
+      </div>
+    </div>
   </div>
 </ion-content>

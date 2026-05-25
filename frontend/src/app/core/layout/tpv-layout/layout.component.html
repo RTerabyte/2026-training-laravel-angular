@@ -1,6 +1,13 @@
 <div class="layout">
   <div class="sidebar">
-    <h2>TPV</h2>
+    <div class="sidebar-header">
+      <div class="sidebar-logo">T</div>
+
+      <div class="sidebar-brand">
+        <h2>TPV</h2>
+        <p>Yurest</p>
+      </div>
+    </div>
 
     <ion-button
       class="nav-button"
@@ -38,7 +45,18 @@
     </ion-button>
 
     <div class="user-block" *ngIf="user">
-      <div class="user-name">{{ user.name }}</div>
+      <div class="user-card">
+        <div class="user-avatar">
+          {{ user.name ? user.name.charAt(0).toUpperCase() : "A" }}
+        </div>
+
+        <div class="user-info">
+          <div class="user-name">{{ user.name }}</div>
+          <div class="user-role">
+            {{ isAdmin() ? "Administrador" : "Empleado" }}
+          </div>
+        </div>
+      </div>
 
       <ion-button class="logout-button" fill="clear" (click)="logout()">
         Salir

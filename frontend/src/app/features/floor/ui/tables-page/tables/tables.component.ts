@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
 import { IonContent, IonCard, IonCardContent } from '@ionic/angular/standalone';
 import { TableItem, TableService } from '../../../infrastructure/table.service';
 import { Zone, ZoneService } from '../../../infrastructure/zone.service';
@@ -28,13 +27,18 @@ export class TablesComponent implements OnInit {
   selectedZoneNumericId: number | null = null;
   user: any = null;
 
+  quickDiners = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  showDinersModal = false;
+  selectedTableToOpen: TableWithOrder | null = null;
+  selectedDiners = 2;
+  
   constructor(
     private router: Router,
     private zoneService: ZoneService,
     private tableService: TableService,
     private orderService: OrderService,
     private authService: AuthService,
-    private alertController: AlertController,
   ) {}
 
   ngOnInit(): void {
@@ -139,7 +143,7 @@ export class TablesComponent implements OnInit {
     return zone?.name ?? '';
   }
 
-  openTable(table: TableWithOrder): void {
+   openTable(table: TableWithOrder): void {
     if (table.status === 'occupied' && table.activeOrderId) {
       this.router.navigate(['/tpv/orders', table.activeOrderId]);
       return;
@@ -148,43 +152,52 @@ export class TablesComponent implements OnInit {
     this.openCreateOrderModal(table);
   }
 
-  async openCreateOrderModal(table: TableWithOrder): Promise<void> {
-    const alert = await this.alertController.create({
-      header: `Abrir pedido - ${table.name}`,
-      message: 'Indica el número de comensales',
-      cssClass: 'custom-dark-alert',
-      mode: 'md',
-      inputs: [
-        {
-          name: 'diners',
-          type: 'number',
-          min: 1,
-          value: 2,
-          placeholder: 'Comensales',
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Abrir pedido',
-          handler: (data) => {
-            const diners = Number(data.diners);
+  openCreateOrderModal(table: TableWithOrder): void {
+    this.selectedTableToOpen = table;
+    this.selectedDiners = 2;
+    this.showDinersModal = true;
+  }
 
-            if (!diners || diners < 1) {
-              return false;
-            }
+  selectDiners(diners: number): void {
+    this.selectedDiners = diners;
+  }
 
-            this.createOrderFromTable(table, diners);
-            return true;
-          },
-        },
-      ],
-    });
+  decreaseDiners(): void {
+  if (this.selectedDiners <= 1) {
+    return;
+  }
 
-    await alert.present();
+  this.selectedDiners--;
+}
+
+increaseDiners(amount = 1): void {
+  this.selectedDiners += amount;
+}
+
+  closeDinersModal(): void {
+    this.showDinersModal = false;
+    this.selectedTableToOpen = null;
+    this.selectedDiners = 2;
+  }
+
+  closeDinersModalFromBackdrop(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    this.closeDinersModal();
+  }
+
+  confirmOpenTable(): void {
+    if (!this.selectedTableToOpen) {
+      return;
+    }
+
+    const table = this.selectedTableToOpen;
+    const diners = this.selectedDiners;
+
+    this.closeDinersModal();
+    this.createOrderFromTable(table, diners);
   }
 
   createOrderFromTable(table: TableWithOrder, diners: number): void {
