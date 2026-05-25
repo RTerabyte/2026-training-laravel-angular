@@ -103,27 +103,27 @@ export class OrdersComponent implements OnInit {
   }
 
   loadTableName(): void {
-  if (!this.currentOrder) {
-    return;
+    if (!this.currentOrder) {
+      return;
+    }
+
+    const currentOrder = this.currentOrder;
+
+    this.tableService.getTables().subscribe({
+      next: (response: any) => {
+        const tables = response.tables ?? response.data ?? response;
+
+        const table = tables.find((item: any) => {
+          return String(item.id) === String(currentOrder.table_id);
+        });
+
+        this.tableName = table?.name ?? '';
+      },
+      error: (error: unknown) => {
+        console.log('ERROR loading table name', error);
+      },
+    });
   }
-
-  const currentOrder = this.currentOrder;
-
-  this.tableService.getTables().subscribe({
-    next: (response: any) => {
-      const tables = response.tables ?? response.data ?? response;
-
-      const table = tables.find((item: any) => {
-        return String(item.id) === String(currentOrder.table_id);
-      });
-
-      this.tableName = table?.name ?? '';
-    },
-    error: (error: unknown) => {
-      console.log('ERROR loading table name', error);
-    },
-  });
-}
 
   addProduct(product: Product): void {
     if (!this.currentOrder || !this.user) {
@@ -300,31 +300,29 @@ export class OrdersComponent implements OnInit {
   }
 
   confirmCancelOrder(): void {
-  if (!this.currentOrder || !this.user || this.orderLines.length > 0) {
-    return;
+    if (!this.currentOrder || !this.user || this.orderLines.length > 0) {
+      return;
+    }
+
+    const payload = {
+      status: 'cancelled',
+      closed_by_user_id: String(this.user.id),
+      diners: Number(this.currentOrder.diners),
+      closed_at: new Date().toISOString(),
+    };
+
+    this.orderService.updateOrder(this.currentOrder.id, payload).subscribe({
+      next: () => {
+        localStorage.removeItem(this.getSentLinesStorageKey());
+
+        this.showCancelOrderModal = false;
+        this.router.navigate(['/tpv/tables']);
+      },
+      error: (error: unknown) => {
+        console.log('ERROR liberando mesa', error);
+      },
+    });
   }
-
-  const payload = {
-    status: 'cancelled',
-    closed_by_user_id: String(this.user.id),
-    diners: Number(this.currentOrder.diners),
-    closed_at: new Date().toISOString(),
-  };
-
-  console.log('PAYLOAD LIBERAR MESA', payload);
-
-  this.orderService.updateOrder(this.currentOrder.id, payload).subscribe({
-    next: () => {
-      localStorage.removeItem(this.getSentLinesStorageKey());
-
-      this.showCancelOrderModal = false;
-      this.router.navigate(['/tpv/tables']);
-    },
-    error: (error: unknown) => {
-      console.log('ERROR liberando mesa', error);
-    },
-  });
-}
 
   private getSentLinesStorageKey(): string {
     return `order_sent_lines_${this.orderId}`;
