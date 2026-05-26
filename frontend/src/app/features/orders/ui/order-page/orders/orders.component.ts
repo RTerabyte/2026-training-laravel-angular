@@ -62,6 +62,10 @@ export class OrdersComponent implements OnInit {
 
   showCancelOrderModal = false;
 
+  showEditDinersModal = false;
+  editDiners = 1;
+  quickDiners = [1, 2, 3, 4, 5, 6, 7, 8];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -320,6 +324,77 @@ export class OrdersComponent implements OnInit {
       },
       error: (error: unknown) => {
         console.log('ERROR liberando mesa', error);
+      },
+    });
+  }
+  openEditDinersModal(): void {
+    if (!this.currentOrder) {
+      return;
+    }
+
+    this.editDiners = this.currentOrder.diners;
+    this.showEditDinersModal = true;
+  }
+
+  closeEditDinersModal(): void {
+    this.showEditDinersModal = false;
+  }
+
+  closeEditDinersModalFromBackdrop(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    this.closeEditDinersModal();
+  }
+
+  selectEditDiners(diners: number): void {
+    this.editDiners = diners;
+  }
+
+  increaseEditDiners(): void {
+    this.editDiners++;
+  }
+
+  decreaseEditDiners(): void {
+    if (this.editDiners <= 1) {
+      return;
+    }
+
+    this.editDiners--;
+  }
+
+  changeManualEditDiners(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const diners = Number(input.value);
+
+    this.editDiners = diners > 0 ? diners : 1;
+  }
+
+  confirmEditDiners(): void {
+    if (!this.currentOrder || this.editDiners < 1) {
+      return;
+    }
+
+    const payload = {
+      diners: Number(this.editDiners),
+    };
+
+    this.orderService.updateOrder(this.currentOrder.id, payload).subscribe({
+      next: () => {
+        if (!this.currentOrder) {
+          return;
+        }
+
+        this.currentOrder = {
+          ...this.currentOrder,
+          diners: Number(this.editDiners),
+        };
+
+        this.closeEditDinersModal();
+      },
+      error: (error: unknown) => {
+        console.log('ERROR updating diners', error);
       },
     });
   }

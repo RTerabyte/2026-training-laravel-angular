@@ -1,5 +1,8 @@
 <div class="products-section">
-  <h3>Productos</h3>
+  <div class="products-header">
+    <h3>Productos</h3>
+    <p>Selecciona productos para añadirlos al pedido</p>
+  </div>
 
   <div class="families-list">
     <ion-button
@@ -25,27 +28,36 @@
   </div>
 
   <div *ngFor="let family of getVisibleFamilies()" class="family-section">
-    <h4>{{ family.name }}</h4>
+    <div class="family-title">
+      <h4>{{ family.name }}</h4>
+      <span>{{ getProductsByFamily(family.id).length }} productos</span>
+    </div>
 
     <div class="products-grid">
       <ion-card
         *ngFor="let product of getProductsByFamily(family.id)"
+        class="product-card"
         (click)="productSelected.emit(product)"
       >
-        <img
-          *ngIf="product.image_src; else noImage"
-          class="product-image"
-          [src]="product.image_src"
-          [alt]="product.name"
-        />
+        <div class="product-image-box">
+          <img
+            *ngIf="product.image_src; else noImage"
+            class="product-image"
+            [src]="product.image_src"
+            [alt]="product.name"
+          />
 
-        <ng-template #noImage>
-          <div class="product-placeholder">🍽️</div>
-        </ng-template>
-
+          <ng-template #noImage>
+            <div class="product-placeholder">🍽️</div>
+          </ng-template>
+        </div>
         <ion-card-content>
-          <h5>{{ product.name }}</h5>
-          <p>{{ product.price / 100 | number: "1.2-2" }} €</p>
+          <div class="product-info">
+            <h5>{{ product.name }}</h5>
+            <span class="product-price">
+              {{ product.price / 100 | number: "1.2-2" }} €
+            </span>
+          </div>
         </ion-card-content>
       </ion-card>
     </div>
