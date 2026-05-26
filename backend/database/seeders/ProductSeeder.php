@@ -17,6 +17,7 @@ class ProductSeeder extends Seeder
         $mainCoursesId = DB::table('families')->where('name', 'Platos Principales')->first()->id;
         $alcoholicBeveragesId = DB::table('families')->where('name', 'Bebidas Alcohólicas')->first()->id;
         $cafesId = DB::table('families')->where('name', 'Cafés')->first()->id;
+        $hamburgersId = DB::table('families')->where('name', 'Hamburguesas')->first()->id;
 
         $tax21Id = DB::table('taxes')->where('percentage', 21)->first()->id;
 
@@ -401,7 +402,7 @@ class ProductSeeder extends Seeder
                 'family_id' => $mainCoursesId,
                 'tax_id' => $tax21Id,
                 'name' => 'Paella valenciana (Precio por personas)',
-                'price' => 180,
+                'price' => 1800,
                 'stock' => 60,
                 'image_src' => 'http://localhost:4200/assets/products/paella.jpeg',
                 'created_at' => now(),
@@ -413,7 +414,7 @@ class ProductSeeder extends Seeder
                 'family_id' => $mainCoursesId,
                 'tax_id' => $tax21Id,
                 'name' => 'Arroz al senyoret (Precio por personas)',
-                'price' => 190,
+                'price' => 1900,
                 'stock' => 60,
                 'image_src' => 'http://localhost:4200/assets/products/arrozsenyoret.jpeg',
                 'created_at' => now(),
@@ -425,7 +426,7 @@ class ProductSeeder extends Seeder
                 'family_id' => $mainCoursesId,
                 'tax_id' => $tax21Id,
                 'name' => 'Arroz de secreto y setas (Precio por personas)',
-                'price' => 190,
+                'price' => 1900,
                 'stock' => 60,
                 'image_src' => 'http://localhost:4200/assets/products/arrozsecreto.jpeg',
                 'created_at' => now(),
@@ -437,7 +438,7 @@ class ProductSeeder extends Seeder
                 'family_id' => $mainCoursesId,
                 'tax_id' => $tax21Id,
                 'name' => 'Arroz de boletus y foie (Precio por personas)',
-                'price' => 220,
+                'price' => 2200,
                 'stock' => 60,
                 'image_src' => 'http://localhost:4200/assets/products/arrozboletus.jpeg',
                 'created_at' => now(),
@@ -449,7 +450,7 @@ class ProductSeeder extends Seeder
                 'family_id' => $mainCoursesId,
                 'tax_id' => $tax21Id,
                 'name' => 'Arroz meloso de bogavante (Precio por personas)',
-                'price' => 240,
+                'price' => 2400,
                 'stock' => 60,
                 'image_src' => 'http://localhost:4200/assets/products/arrozbogavante.jpeg',
                 'created_at' => now(),
@@ -458,10 +459,10 @@ class ProductSeeder extends Seeder
             [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
-                'family_id' => $mainCoursesId,
+                'family_id' => $hamburgersId,
                 'tax_id' => $tax21Id,
                 'name' => 'Burger queso de cabra y cebolla caramelizada',
-                'price' => 120,
+                'price' => 1200,
                 'stock' => 60,
                 'image_src' => 'http://localhost:4200/assets/products/burgercabra.jpeg',
                 'created_at' => now(),
@@ -470,10 +471,10 @@ class ProductSeeder extends Seeder
             [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
-                'family_id' => $mainCoursesId,
+                'family_id' => $hamburgersId,
                 'tax_id' => $tax21Id,
                 'name' => 'Burger pollo',
-                'price' => 110,
+                'price' => 1100,
                 'stock' => 60,
                 'image_src' => 'http://localhost:4200/assets/products/burgerpollo.jpeg',
                 'created_at' => now(),
@@ -482,10 +483,10 @@ class ProductSeeder extends Seeder
             [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
-                'family_id' => $mainCoursesId,
+                'family_id' => $hamburgersId,
                 'tax_id' => $tax21Id,
                 'name' => 'Burger',
-                'price' => 120,
+                'price' => 1200,
                 'stock' => 60,
                 'image_src' => 'http://localhost:4200/assets/products/burger.jpeg',
                 'created_at' => now(),
