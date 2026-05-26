@@ -64,6 +64,7 @@
   <app-payment-modal
     *ngIf="showPaymentModal"
     [total]="getOrderTotal()"
+    [diners]="currentOrder?.diners ?? 1"
     (closed)="showPaymentModal = false"
     (paymentConfirmed)="confirmPayment($event)"
   ></app-payment-modal>

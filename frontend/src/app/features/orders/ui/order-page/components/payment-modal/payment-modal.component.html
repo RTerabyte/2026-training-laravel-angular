@@ -1,123 +1,156 @@
 <div class="payment-backdrop">
   <ion-card class="payment-modal">
     <ion-card-content>
-      <h2>Cobrar pedido</h2>
+      <div class="payment-header">
+        <div>
+          <h2>Cobrar pedido</h2>
+        </div>
 
-      <p>Total: {{ getTotalInEuros() | number: "1.2-2" }} €</p>
-      <p>Pagado: {{ getPaidAmount() / 100 | number: "1.2-2" }} €</p>
-      <p>Pendiente: {{ getPendingAmount() / 100 | number: "1.2-2" }} €</p>
+        <button type="button" class="close-button" (click)="closed.emit()">
+          ×
+        </button>
+      </div>
 
-      <div *ngIf="getChangeAmount() > 0">
-        <strong
-          >Cambio: {{ getChangeAmount() / 100 | number: "1.2-2" }} €</strong
-        >
+      <div class="total-card">
+        <span>Total a cobrar</span>
+        <strong>{{ getTotalInEuros() | number: "1.2-2" }} €</strong>
+      </div>
+
+      <div class="payment-status-grid">
+        <div class="status-item">
+          <span>Pagado</span>
+          <strong>{{ getPaidAmount() / 100 | number: "1.2-2" }} €</strong>
+        </div>
+
+        <div class="status-item pending">
+          <span>Pendiente</span>
+          <strong>{{ getPendingAmount() / 100 | number: "1.2-2" }} €</strong>
+        </div>
+      </div>
+
+      <div class="change-card" *ngIf="getChangeAmount() > 0">
+        <span>Cambio a devolver</span>
+        <strong>{{ getChangeAmount() / 100 | number: "1.2-2" }} €</strong>
       </div>
 
       <div class="payment-methods">
-        <ion-button
-          [fill]="selectedMethod === 'cash' ? 'solid' : 'outline'"
+        <button
+          type="button"
+          class="method-button"
+          [class.active]="selectedMethod === 'cash'"
           (click)="selectMethod('cash')"
         >
-          Efectivo
-        </ion-button>
+          <span>Efectivo</span>
+        </button>
 
-        <ion-button
-          [fill]="selectedMethod === 'card' ? 'solid' : 'outline'"
+        <button
+          type="button"
+          class="method-button"
+          [class.active]="selectedMethod === 'card'"
           (click)="selectMethod('card')"
         >
-          Tarjeta
-        </ion-button>
+          <span>Tarjeta</span>
+        </button>
       </div>
 
       <div *ngIf="selectedMethod === 'cash'" class="payment-form">
+        <label>Recibido en efectivo (€)</label>
+
         <ion-input
+          class="payment-input"
           type="number"
           min="0"
-          label="Recibido (€)"
-          labelPlacement="stacked"
           [(ngModel)]="cashReceived"
           (ionInput)="fixNegativeAmounts()"
         ></ion-input>
 
         <div class="quick-cash-buttons">
-          <ion-button size="small" fill="outline" (click)="setExactAmount()">
-            Exacto
-          </ion-button>
+          <button type="button" (click)="setExactAmount()">Exacto</button>
 
-          <ion-button
+          <button
+            type="button"
             *ngFor="let amount of quickCashAmounts"
-            size="small"
-            fill="outline"
             (click)="setQuickCashAmount(amount)"
           >
             {{ amount }} €
-          </ion-button>
+          </button>
         </div>
       </div>
 
       <div *ngIf="selectedMethod === 'card'" class="payment-form">
+        <label>Importe con tarjeta (€)</label>
+
         <ion-input
+          class="payment-input"
           type="number"
           min="0"
-          label="Importe tarjeta (€)"
-          labelPlacement="stacked"
           [(ngModel)]="cardAmount"
           (ionInput)="fixNegativeAmounts()"
         ></ion-input>
       </div>
 
-      <ion-button
-        expand="block"
+      <button
+        type="button"
+        class="add-payment-button"
         [disabled]="getPendingAmount() === 0"
         (click)="addPayment()"
       >
         Añadir pago
-      </ion-button>
+      </button>
 
       <div class="payments-list" *ngIf="payments.length > 0">
-        <h3>Pagos</h3>
+        <div class="payments-title">
+          <h3>Pagos añadidos</h3>
+          <span>{{ payments.length }}</span>
+        </div>
 
         <div
           *ngFor="let payment of payments; let i = index"
           class="payment-line"
         >
           <div>
-            <strong>{{
-              payment.method === "cash" ? "Efectivo" : "Tarjeta"
-            }}</strong>
+            <strong>
+              {{ payment.method === "cash" ? "Efectivo" : "Tarjeta" }}
+            </strong>
 
-            <div>Pagado: {{ payment.amount / 100 | number: "1.2-2" }} €</div>
+            <p>
+              Pagado: {{ payment.amount / 100 | number: "1.2-2" }} €
+            </p>
 
-            <div *ngIf="payment.method === 'cash'">
+            <p *ngIf="payment.method === 'cash'">
               Recibido:
               {{ (payment.receivedAmount ?? 0) / 100 | number: "1.2-2" }} €
-            </div>
+            </p>
 
-            <div *ngIf="(payment.changeAmount ?? 0) > 0">
+            <p *ngIf="(payment.changeAmount ?? 0) > 0">
               Cambio:
               {{ (payment.changeAmount ?? 0) / 100 | number: "1.2-2" }} €
-            </div>
+            </p>
           </div>
 
-          <ion-button
-            size="small"
-            color="danger"
-            fill="clear"
+          <button
+            type="button"
+            class="remove-payment-button"
             (click)="removePayment(i)"
           >
             Quitar
-          </ion-button>
+          </button>
         </div>
       </div>
 
       <div class="modal-actions">
-        <ion-button color="medium" fill="outline" (click)="closed.emit()">
+        <button type="button" class="cancel-button" (click)="closed.emit()">
           Cancelar
-        </ion-button>
+        </button>
 
-        <ion-button *ngIf="isPaymentComplete()" (click)="confirmPayment()">
+        <button
+          type="button"
+          class="finish-button"
+          [disabled]="!isPaymentComplete()"
+          (click)="confirmPayment()"
+        >
           Finalizar venta
-        </ion-button>
+        </button>
       </div>
     </ion-card-content>
   </ion-card>
