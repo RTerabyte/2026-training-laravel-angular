@@ -321,7 +321,7 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-             [
+            [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'family_id' => $appetizersId,
@@ -333,7 +333,7 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-              [
+            [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'family_id' => $appetizersId,
@@ -395,19 +395,19 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-             [
+            [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'family_id' => $mainCoursesId,
                 'tax_id' => $tax21Id,
                 'name' => 'Paella valenciana (Precio por personas)',
-                'price' => 180 ,
+                'price' => 180,
                 'stock' => 60,
                 'image_src' => 'http://localhost:4200/assets/products/paella.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-             [
+            [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'family_id' => $mainCoursesId,
@@ -419,7 +419,7 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-             [
+            [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'family_id' => $mainCoursesId,
@@ -431,7 +431,7 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-             [
+            [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'family_id' => $mainCoursesId,
@@ -443,7 +443,7 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-             [
+            [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'family_id' => $mainCoursesId,
@@ -455,7 +455,7 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-             [
+            [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'family_id' => $mainCoursesId,
@@ -467,7 +467,7 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-             [
+            [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'family_id' => $mainCoursesId,
@@ -479,7 +479,7 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-             [
+            [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'family_id' => $mainCoursesId,
