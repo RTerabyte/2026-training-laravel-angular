@@ -505,3 +505,176 @@ ion-card-content {
   background: var(--app-primary);
   color: #ffffff;
 }
+.payment-modal {
+  width: 860px;
+  max-width: 96vw;
+  max-height: 88vh;
+}
+
+ion-card-content {
+  padding: 18px;
+}
+
+.payment-header {
+  margin-bottom: 14px;
+}
+
+.payment-header h2 {
+  font-size: 1.35rem;
+}
+
+.payment-body {
+  display: grid;
+  grid-template-columns: 1fr 0.95fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.payment-left,
+.payment-right {
+  min-width: 0;
+}
+
+.total-card.compact {
+  padding: 14px 16px;
+  border-radius: 18px;
+}
+
+.total-card.compact strong {
+  font-size: 1.8rem;
+}
+
+.payment-status-grid {
+  margin-bottom: 10px;
+}
+
+.status-item {
+  padding: 10px 12px;
+}
+
+.status-item strong {
+  font-size: 1rem;
+}
+
+.payment-methods {
+  margin-bottom: 10px;
+}
+
+.method-button {
+  height: 40px;
+  border-radius: 14px;
+}
+
+.split-card {
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 12px;
+  border-radius: 16px;
+}
+
+.split-header p {
+  margin: 2px 0 0;
+}
+
+.split-compact-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.split-stepper {
+  grid-template-columns: 42px 1fr 42px;
+  gap: 8px;
+}
+
+.split-stepper button,
+.split-stepper strong {
+  height: 40px;
+}
+
+.split-result {
+  display: grid;
+  gap: 2px;
+  justify-content: end;
+  text-align: right;
+}
+
+.split-result strong {
+  font-size: 1.1rem;
+}
+
+.split-use-button {
+  height: 36px;
+}
+
+.payment-form {
+  gap: 9px;
+  margin-bottom: 0;
+}
+
+.payment-input {
+  min-height: 44px;
+  font-size: 1.2rem;
+}
+
+.touch-keypad {
+  gap: 7px;
+}
+
+.touch-keypad button {
+  height: 40px;
+  border-radius: 13px;
+  font-size: 1rem;
+}
+
+.quick-cash-buttons {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+}
+
+.quick-cash-buttons button {
+  height: 34px;
+  font-size: 0.78rem;
+}
+
+.add-payment-button {
+  height: 40px;
+}
+
+.payments-list {
+  max-height: 170px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.payment-line {
+  padding: 9px 10px;
+}
+
+.payment-line p {
+  margin: 2px 0 0;
+}
+
+.modal-actions {
+  margin-top: 14px;
+}
+
+.cancel-button,
+.finish-button {
+  height: 40px;
+}
+
+@media (max-width: 800px) {
+  .payment-modal {
+    width: 620px;
+  }
+
+  .payment-body {
+    grid-template-columns: 1fr;
+  }
+
+  .payments-list {
+    max-height: 140px;
+  }
+}
