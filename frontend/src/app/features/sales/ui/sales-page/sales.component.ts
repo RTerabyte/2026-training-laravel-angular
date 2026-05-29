@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { IonButton, IonContent, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { eyeOutline } from 'ionicons/icons';
 import { Sale, SaleLine } from '../../domain/sale.model';
@@ -27,7 +27,7 @@ interface ProductOption {
   standalone: true,
   templateUrl: './sales.component.html',
   styleUrls: ['./sales.component.scss'],
-  imports: [CommonModule, IonContent, IonButton, IonIcon],
+  imports: [CommonModule, IonContent, IonIcon],
 })
 export class SalesComponent implements OnInit {
   sales: Sale[] = [];

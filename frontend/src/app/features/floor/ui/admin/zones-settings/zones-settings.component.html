@@ -108,7 +108,7 @@
       <div class="settings-crud-list" *ngIf="filteredZones.length > 0">
         <div *ngFor="let zone of filteredZones" class="settings-crud-row">
           <div class="settings-crud-avatar">
-            {{ zone.name?.charAt(0) || "Z" }}
+            {{ zone.name.charAt(0) || "Z" }}
           </div>
 
           <div class="settings-crud-info">

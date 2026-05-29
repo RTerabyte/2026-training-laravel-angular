@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-  IonButton,
   IonCard,
   IonCardContent,
-  IonInput,
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 
@@ -33,8 +31,6 @@ export interface PaymentResult {
     FormsModule,
     IonCard,
     IonCardContent,
-    IonButton,
-    IonInput,
   ],
 })
 export class PaymentModalComponent implements OnInit {

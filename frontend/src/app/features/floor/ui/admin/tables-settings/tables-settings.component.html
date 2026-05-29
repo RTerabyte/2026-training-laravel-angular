@@ -138,7 +138,7 @@
       <div class="settings-crud-list" *ngIf="filteredTables.length > 0">
         <div *ngFor="let table of filteredTables" class="settings-crud-row">
           <div class="settings-crud-avatar">
-            {{ table.name?.charAt(0) || "M" }}
+            {{ table.name.charAt(0) || "M" }}
           </div>
 
           <div class="settings-crud-info">

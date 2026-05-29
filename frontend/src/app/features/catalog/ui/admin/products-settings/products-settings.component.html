@@ -245,7 +245,7 @@
       >
         <div *ngFor="let product of filteredProducts" class="settings-crud-row">
           <div class="settings-crud-avatar">
-            {{ product.name?.charAt(0) || "P" }}
+            {{ product.name.charAt(0) || "P" }}
           </div>
 
           <div class="settings-crud-info">

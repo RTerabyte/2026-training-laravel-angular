@@ -129,7 +129,7 @@
       <div class="settings-crud-list" *ngIf="filteredFamilies.length > 0">
         <div *ngFor="let family of filteredFamilies" class="settings-crud-row">
           <div class="settings-crud-avatar">
-            {{ family.name?.charAt(0) || "F" }}
+            {{ family.name.charAt(0) || "F" }}
           </div>
 
           <div class="settings-crud-info">
