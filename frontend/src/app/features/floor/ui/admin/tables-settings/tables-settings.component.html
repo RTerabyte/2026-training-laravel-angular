@@ -1,80 +1,118 @@
-<div class="settings-layout">
-  <ion-card class="panel-card">
+<div class="settings-crud-layout">
+  <ion-card class="admin-form-card" [class.edit-mode]="tableMode === 'edit'">
     <ion-card-content>
-      <h3 *ngIf="tableMode === 'create'">Crear mesa</h3>
-      <h3 *ngIf="tableMode === 'edit'">Editar mesa</h3>
+      <div class="card-header">
+        <div>
+          <span>
+            {{ tableMode === "create" ? "Nueva mesa" : "Editando mesa" }}
+          </span>
+        </div>
 
-      <ion-item>
-        <ion-label position="stacked">Nombre</ion-label>
-        <ion-input
-          *ngIf="tableMode === 'create'"
-          type="text"
-          [(ngModel)]="createTableForm.name"
-          placeholder="Mesa 1"
-        ></ion-input>
-
-        <ion-input
+        <ion-button
           *ngIf="tableMode === 'edit'"
-          type="text"
-          [(ngModel)]="editTableForm.name"
-          placeholder="Mesa 1"
-        ></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Zona</ion-label>
-
-        <ion-select
-          *ngIf="tableMode === 'create'"
-          interface="popover"
-          [(ngModel)]="createTableForm.zone_id"
-          placeholder="Selecciona una zona"
+          size="small"
+          fill="clear"
+          class="ghost-button"
+          (click)="cancelEditTable()"
         >
-          <ion-select-option *ngFor="let zone of zones" [value]="zone.id">
-            {{ zone.name }}
-          </ion-select-option>
-        </ion-select>
+          Cancelar
+        </ion-button>
+      </div>
 
-        <ion-select
-          *ngIf="tableMode === 'edit'"
-          interface="popover"
-          [(ngModel)]="editTableForm.zone_id"
-          placeholder="Selecciona una zona"
-        >
-          <ion-select-option *ngFor="let zone of zones" [value]="zone.id">
-            {{ zone.name }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
+      <div class="form-grid">
+        <ion-item class="form-item">
+          <ion-label position="stacked">Nombre</ion-label>
+
+          <ion-input
+            *ngIf="tableMode === 'create'"
+            type="text"
+            [(ngModel)]="createTableForm.name"
+            placeholder="Mesa 1"
+          ></ion-input>
+
+          <ion-input
+            *ngIf="tableMode === 'edit'"
+            type="text"
+            [(ngModel)]="editTableForm.name"
+            placeholder="Mesa 1"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="stacked">Zona</ion-label>
+
+          <ion-select
+            *ngIf="tableMode === 'create'"
+            interface="popover"
+            [(ngModel)]="createTableForm.zone_id"
+            placeholder="Selecciona una zona"
+          >
+            <ion-select-option *ngFor="let zone of zones" [value]="zone.id">
+              {{ zone.name }}
+            </ion-select-option>
+          </ion-select>
+
+          <ion-select
+            *ngIf="tableMode === 'edit'"
+            interface="popover"
+            [(ngModel)]="editTableForm.zone_id"
+            placeholder="Selecciona una zona"
+          >
+            <ion-select-option *ngFor="let zone of zones" [value]="zone.id">
+              {{ zone.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
 
       <div class="error-box" *ngIf="tableErrorMessages.length > 0">
-        <p class="error-title">Revisa estos campos:</p>
+        <strong>Revisa estos campos</strong>
+
         <ul>
           <li *ngFor="let error of tableErrorMessages">{{ error }}</li>
         </ul>
       </div>
 
       <div class="form-actions" *ngIf="tableMode === 'create'">
-        <ion-button expand="block" (click)="createTable()">
+        <ion-button
+          expand="block"
+          class="primary-action"
+          (click)="createTable()"
+        >
           Crear mesa
         </ion-button>
       </div>
 
       <div class="form-actions edit-actions" *ngIf="tableMode === 'edit'">
-        <ion-button color="medium" (click)="cancelEditTable()">
+        <ion-button
+          fill="clear"
+          class="secondary-action"
+          (click)="cancelEditTable()"
+        >
           Cancelar
         </ion-button>
-        <ion-button (click)="saveEditTable()">Guardar cambios</ion-button>
+
+        <ion-button class="primary-action" (click)="saveEditTable()">
+          Guardar cambios
+        </ion-button>
       </div>
     </ion-card-content>
   </ion-card>
 
-  <ion-card class="panel-card">
+  <ion-card class="admin-list-card">
     <ion-card-content>
-      <h3>Mesas</h3>
+      <div class="card-header list-header">
+        <div>
+          <span>Salón</span>
+          <h3>Mesas</h3>
+        </div>
 
-      <ion-item>
-        <ion-label position="stacked">Buscar</ion-label>
+        <strong class="count-badge">{{ filteredTables.length }}</strong>
+      </div>
+
+      <ion-item class="search-item">
+        <ion-label position="stacked">Buscar mesa</ion-label>
+
         <ion-input
           type="text"
           [(ngModel)]="tableSearchTerm"
@@ -84,37 +122,45 @@
       </ion-item>
 
       <ion-button
-        fill="outline"
+        fill="clear"
         size="small"
+        class="clear-search-button"
         *ngIf="tableSearchTerm"
         (click)="clearTableSearch()"
       >
-        Limpiar
+        Limpiar búsqueda
       </ion-button>
 
       <div *ngIf="filteredTables.length === 0" class="empty-state">
         No hay mesas para mostrar.
       </div>
 
-      <div class="users-list" *ngIf="filteredTables.length > 0">
-        <div *ngFor="let table of filteredTables" class="user-row">
-          <div class="user-info">
-            <strong>{{ table.name }}</strong>
+      <div class="settings-crud-list" *ngIf="filteredTables.length > 0">
+        <div *ngFor="let table of filteredTables" class="settings-crud-row">
+          <div class="settings-crud-avatar">
+            {{ table.name?.charAt(0) || "M" }}
+          </div>
+
+          <div class="settings-crud-info">
+            <div class="settings-crud-main-row">
+              <strong>{{ table.name }}</strong>
+            </div>
+
             <span>Zona: {{ getZoneName(table.zone_id) }}</span>
           </div>
 
           <div class="row-actions">
             <ion-button
-              color="warning"
               size="small"
+              class="edit-button"
               (click)="startEditTable(table)"
             >
               Editar
             </ion-button>
 
             <ion-button
-              color="danger"
               size="small"
+              class="delete-button"
               (click)="deleteTable(table)"
             >
               Borrar

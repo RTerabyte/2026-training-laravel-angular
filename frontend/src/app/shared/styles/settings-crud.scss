@@ -1,3 +1,5 @@
+.settings-layout,
+.settings-crud-layout,
 .users-admin-layout {
   display: grid;
   grid-template-columns: 390px minmax(0, 1fr);
@@ -6,7 +8,8 @@
 }
 
 .admin-form-card,
-.admin-list-card {
+.admin-list-card,
+.panel-card {
   margin: 0;
   border: 1px solid var(--app-border);
   border-radius: 24px;
@@ -15,7 +18,8 @@
   box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
 }
 
-.admin-form-card.edit-mode {
+.admin-form-card.edit-mode,
+.panel-card.edit-mode {
   border-color: rgba(47, 128, 165, 0.45);
 }
 
@@ -94,6 +98,14 @@ ion-select::part(icon) {
   color: var(--app-muted);
 }
 
+ion-checkbox {
+  --checkbox-background: transparent;
+  --checkbox-background-checked: var(--app-primary);
+  --border-color: var(--app-border);
+  --border-color-checked: var(--app-primary);
+  --checkmark-color: #ffffff;
+}
+
 .full-field {
   grid-column: 1 / -1;
 }
@@ -106,11 +118,13 @@ ion-select::part(icon) {
   background: rgba(239, 68, 68, 0.12);
 }
 
-.error-box strong {
+.error-box strong,
+.error-title {
   display: block;
-  margin-bottom: 8px;
+  margin: 0 0 8px;
   color: #dc2626;
   font-size: 0.9rem;
+  font-weight: 900;
 }
 
 .error-box ul {
@@ -219,6 +233,7 @@ ion-select::part(icon) {
   font-weight: 750;
 }
 
+.settings-crud-list,
 .users-list {
   display: grid;
   gap: 10px;
@@ -227,15 +242,18 @@ ion-select::part(icon) {
   padding-right: 4px;
 }
 
+.settings-crud-list::-webkit-scrollbar,
 .users-list::-webkit-scrollbar {
   width: 6px;
 }
 
+.settings-crud-list::-webkit-scrollbar-thumb,
 .users-list::-webkit-scrollbar-thumb {
   border-radius: 999px;
   background: var(--app-border);
 }
 
+.settings-crud-row,
 .user-card {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) auto;
@@ -252,11 +270,13 @@ ion-select::part(icon) {
     background 0.12s ease;
 }
 
+.settings-crud-row:hover,
 .user-card:hover {
   transform: translateY(-1px);
   border-color: var(--app-primary);
 }
 
+.settings-crud-avatar,
 .user-avatar {
   display: flex;
   width: 44px;
@@ -269,47 +289,75 @@ ion-select::part(icon) {
   font-weight: 950;
 }
 
+.settings-crud-info,
 .user-info {
   min-width: 0;
   display: grid;
   gap: 4px;
 }
 
+.settings-crud-main-row,
 .user-main-row {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
+.settings-crud-main-row strong,
 .user-main-row strong {
   color: var(--app-text);
   font-size: 0.98rem;
   font-weight: 950;
 }
 
+.settings-crud-info span,
 .user-info span {
   color: var(--app-muted);
   font-size: 0.84rem;
   font-weight: 650;
 }
 
-.role-badge {
+.role-badge,
+.status-badge,
+.active-badge,
+.inactive-badge {
   border-radius: 999px;
   padding: 4px 8px;
-  background: rgba(148, 163, 184, 0.18);
-  color: var(--app-muted) !important;
   font-size: 0.72rem !important;
   font-weight: 900 !important;
 }
 
-.role-badge.admin {
+.role-badge,
+.status-badge {
+  background: rgba(148, 163, 184, 0.18);
+  color: var(--app-muted) !important;
+}
+
+.role-badge.admin,
+.active-badge {
   background: var(--app-primary-soft);
   color: var(--app-primary-dark) !important;
+}
+
+.inactive-badge {
+  background: rgba(239, 68, 68, 0.14);
+  color: #dc2626 !important;
+}
+
+.price-badge {
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: var(--app-primary-soft);
+  color: var(--app-primary-dark);
+  font-size: 0.8rem;
+  font-weight: 950;
 }
 
 .row-actions {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .edit-button,
@@ -336,7 +384,8 @@ ion-select::part(icon) {
 }
 
 :host-context(body.dark) .admin-form-card,
-:host-context(body.dark) .admin-list-card {
+:host-context(body.dark) .admin-list-card,
+:host-context(body.dark) .panel-card {
   border-color: #303641;
   background: #181c22;
 }
@@ -347,6 +396,7 @@ ion-select::part(icon) {
   --background: #101418;
 }
 
+:host-context(body.dark) .settings-crud-row,
 :host-context(body.dark) .user-card,
 :host-context(body.dark) .loading-state,
 :host-context(body.dark) .empty-state {
@@ -364,23 +414,35 @@ ion-select::part(icon) {
 }
 
 :host-context(body.dark) .count-badge,
+:host-context(body.dark) .settings-crud-avatar,
 :host-context(body.dark) .user-avatar,
-:host-context(body.dark) .role-badge.admin {
+:host-context(body.dark) .role-badge.admin,
+:host-context(body.dark) .active-badge,
+:host-context(body.dark) .price-badge {
   background: rgba(47, 128, 165, 0.24);
   color: #8bdcf7 !important;
 }
 
+:host-context(body.dark) .inactive-badge {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5 !important;
+}
+
 @media (max-width: 1100px) {
+  .settings-layout,
+  .settings-crud-layout,
   .users-admin-layout {
     grid-template-columns: 1fr;
   }
 
+  .settings-crud-list,
   .users-list {
     max-height: none;
   }
 }
 
 @media (max-width: 700px) {
+  .settings-crud-row,
   .user-card {
     grid-template-columns: 44px 1fr;
   }
