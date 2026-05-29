@@ -1,63 +1,76 @@
 <ion-content class="settings-page">
-  <div class="settings-header">
-    <h2>Ajustes</h2>
-    <p>Panel de administración</p>
+  <div class="settings-shell">
+    <div class="settings-header">
+      <h2>Ajustes</h2>
+      <p>Panel de administración</p>
+    </div>
+
+    <div class="settings-sections">
+      <ion-button
+        [class.active]="isSectionActive('users')"
+        (click)="selectSection('users')"
+      >
+        Usuarios
+      </ion-button>
+
+      <ion-button
+        [class.active]="isSectionActive('products')"
+        (click)="selectSection('products')"
+      >
+        Productos
+      </ion-button>
+
+      <ion-button
+        [class.active]="isSectionActive('families')"
+        (click)="selectSection('families')"
+      >
+        Familias
+      </ion-button>
+
+      <ion-button
+        [class.active]="isSectionActive('taxes')"
+        (click)="selectSection('taxes')"
+      >
+        Impuestos
+      </ion-button>
+
+      <ion-button
+        [class.active]="isSectionActive('zones')"
+        (click)="selectSection('zones')"
+      >
+        Zonas
+      </ion-button>
+
+      <ion-button
+        [class.active]="isSectionActive('tables')"
+        (click)="selectSection('tables')"
+      >
+        Mesas
+      </ion-button>
+    </div>
+
+    <app-users-settings
+      *ngIf="selectedSection === 'users'"
+    ></app-users-settings>
+
+    <app-products-settings
+      *ngIf="selectedSection === 'products'"
+    ></app-products-settings>
+
+    <app-families-settings
+      *ngIf="selectedSection === 'families'"
+    ></app-families-settings>
+
+    <app-taxes-settings
+      *ngIf="selectedSection === 'taxes'"
+    ></app-taxes-settings>
+
+    <app-zones-settings
+      *ngIf="selectedSection === 'zones'"
+    ></app-zones-settings>
+
+    <app-tables-settings
+      *ngIf="selectedSection === 'tables'"
+    ></app-tables-settings>
   </div>
-
-  <div class="settings-sections">
-    <ion-button
-      [class.active]="isSectionActive('users')"
-      (click)="selectSection('users')"
-      >Usuarios</ion-button
-    >
-    <ion-button
-      [class.active]="isSectionActive('products')"
-      (click)="selectSection('products')"
-      >Productos</ion-button
-    >
-    <ion-button
-      [class.active]="isSectionActive('families')"
-      (click)="selectSection('families')"
-      >Familias</ion-button
-    >
-    <ion-button
-      [class.active]="isSectionActive('taxes')"
-      (click)="selectSection('taxes')"
-      >Impuestos</ion-button
-    >
-    <ion-button
-      [class.active]="isSectionActive('zones')"
-      (click)="selectSection('zones')"
-      >Zonas</ion-button
-    >
-    <ion-button
-      [class.active]="isSectionActive('tables')"
-      (click)="selectSection('tables')"
-      >Mesas</ion-button
-    >
-  </div>
-
-  <!-- USERS -->
-  <app-users-settings *ngIf="selectedSection === 'users'"></app-users-settings>
-
-  <!-- PRODUCTS -->
-  <app-products-settings
-    *ngIf="selectedSection === 'products'"
-  ></app-products-settings>
-
-  <!-- FAMILIES -->
-  <app-families-settings
-    *ngIf="selectedSection === 'families'"
-  ></app-families-settings>
-
-  <!-- TAXES -->
-  <app-taxes-settings *ngIf="selectedSection === 'taxes'"></app-taxes-settings>
-
-  <!-- ZONES -->
-  <app-zones-settings *ngIf="selectedSection === 'zones'"></app-zones-settings>
-
-  <!-- TABLES -->
-  <app-tables-settings
-    *ngIf="selectedSection === 'tables'"
-  ></app-tables-settings>
 </ion-content>
