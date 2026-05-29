@@ -33,6 +33,10 @@ export class SalesComponent implements OnInit {
   sales: Sale[] = [];
   isLoading = false;
 
+  searchTerm = '';
+  startDate = '';
+  endDate = '';
+
   users: UserOption[] = [];
   orderLines: OrderLine[] = [];
   products: ProductOption[] = [];
@@ -77,7 +81,14 @@ export class SalesComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           console.log('SALES RESPONSE', response);
-          this.sales = response.sales ?? response.data ?? response;
+          this.sales = (response.sales ?? response.data ?? response).sort(
+            (a: Sale, b: Sale) => {
+              return (
+                new Date(b.value_date).getTime() -
+                new Date(a.value_date).getTime()
+              );
+            },
+          );
           this.isLoading = false;
         },
         error: (error: unknown) => {
@@ -102,12 +113,12 @@ export class SalesComponent implements OnInit {
     return new Date(date).toLocaleString('es-ES');
   }
 
-  getUserName(userId: string): string {
+  getUserName(userId: string | number): string {
     const user = this.users.find((item: UserOption) => {
       return String(item.id) === String(userId);
     });
 
-    return user?.name ?? userId;
+    return user?.name ?? String(userId);
   }
 
   loadSaleLines(saleId: string): void {
@@ -149,7 +160,7 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  getProductName(orderLineId: string): string {
+  getProductName(orderLineId: string | number): string {
     const orderLine = this.orderLines.find((item: OrderLine) => {
       return String(item.id) === String(orderLineId);
     });
@@ -189,11 +200,114 @@ export class SalesComponent implements OnInit {
     this.loadSaleLines(sale.id);
   }
 
-  closeSaleDetailFromBackdrop(event: MouseEvent): void {
-  if (event.target !== event.currentTarget) {
-    return;
+  setSearchTerm(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    this.searchTerm = input.value;
   }
 
-  this.closeSaleDetail();
-}
+  setStartDate(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    this.startDate = input.value;
+  }
+
+  setEndDate(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    this.endDate = input.value;
+  }
+
+  clearFilters(): void {
+    this.searchTerm = '';
+    this.startDate = '';
+    this.endDate = '';
+  }
+
+  setTodayFilter(): void {
+    const today = this.formatDateForInput(new Date());
+
+    this.startDate = today;
+    this.endDate = today;
+  }
+
+  getFilteredSales(): Sale[] {
+    const term = this.searchTerm.trim().toLowerCase();
+
+    return this.sales.filter((sale) => {
+      const ticket = String(sale.ticket_number ?? '').toLowerCase();
+      const userName = this.getUserName(sale.user_id).toLowerCase();
+      const total = this.formatMoney(sale.total).toLowerCase();
+
+      const matchesSearch =
+        !term ||
+        ticket.includes(term) ||
+        userName.includes(term) ||
+        total.includes(term);
+
+      const saleDate = new Date(sale.value_date);
+
+      const matchesStart =
+        !this.startDate || saleDate >= this.getStartOfDay(this.startDate);
+
+      const matchesEnd =
+        !this.endDate || saleDate <= this.getEndOfDay(this.endDate);
+
+      return matchesSearch && matchesStart && matchesEnd;
+    });
+  }
+
+  getTotalFilteredSales(): number {
+    return this.getFilteredSales().reduce((total, sale) => {
+      return total + sale.total;
+    }, 0);
+  }
+
+  getAverageFilteredTicket(): number {
+    const filteredSales = this.getFilteredSales();
+
+    if (filteredSales.length === 0) {
+      return 0;
+    }
+
+    return Math.round(this.getTotalFilteredSales() / filteredSales.length);
+  }
+
+  getBestTicketTotal(): number {
+    const filteredSales = this.getFilteredSales();
+
+    if (filteredSales.length === 0) {
+      return 0;
+    }
+
+    return Math.max(...filteredSales.map((sale) => sale.total));
+  }
+
+  private getStartOfDay(value: string): Date {
+    const [year, month, day] = value.split('-').map(Number);
+
+    return new Date(year, month - 1, day, 0, 0, 0);
+  }
+
+  private getEndOfDay(value: string): Date {
+    const [year, month, day] = value.split('-').map(Number);
+
+    return new Date(year, month - 1, day, 23, 59, 59);
+  }
+
+  private formatDateForInput(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
+  closeSaleDetailFromBackdrop(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    this.closeSaleDetail();
+  }
 }

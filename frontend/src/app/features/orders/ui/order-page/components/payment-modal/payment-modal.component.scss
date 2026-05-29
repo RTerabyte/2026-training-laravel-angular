@@ -13,9 +13,9 @@
 }
 
 .payment-modal {
-  width: 620px;
-  max-width: 94vw;
-  max-height: 92vh;
+  width: 820px;
+  max-width: 95vw;
+  max-height: 88vh;
   margin: 0;
   overflow: auto;
   border: 1px solid var(--app-border);
@@ -26,7 +26,7 @@
 }
 
 ion-card-content {
-  padding: 22px;
+  padding: 20px;
 }
 
 .payment-header {
@@ -34,27 +34,26 @@ ion-card-content {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 18px;
-}
-
-.payment-header span {
-  color: var(--app-primary);
-  font-size: 0.78rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  margin-bottom: 16px;
 }
 
 .payment-header h2 {
-  margin: 4px 0 0;
+  margin: 0;
   color: var(--app-text);
   font-size: 1.55rem;
   font-weight: 950;
 }
 
+.payment-header p {
+  margin: 4px 0 0;
+  color: var(--app-muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
 .close-button {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border: 0;
   border-radius: 999px;
   background: var(--app-surface-soft);
@@ -64,24 +63,31 @@ ion-card-content {
   line-height: 1;
 }
 
+.payment-main {
+  display: grid;
+  grid-template-columns: 1fr 0.95fr;
+  gap: 18px;
+  align-items: start;
+}
+
 .total-card {
   display: grid;
   gap: 4px;
-  margin-bottom: 12px;
-  padding: 18px;
+  margin-bottom: 10px;
+  padding: 16px;
   border-radius: 20px;
   background: var(--app-primary);
   color: #ffffff;
 }
 
 .total-card span {
-  font-size: 0.86rem;
-  font-weight: 800;
+  font-size: 0.82rem;
+  font-weight: 850;
   opacity: 0.9;
 }
 
 .total-card strong {
-  font-size: 2.15rem;
+  font-size: 2rem;
   font-weight: 950;
   line-height: 1;
 }
@@ -90,13 +96,13 @@ ion-card-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .status-item {
   display: grid;
   gap: 4px;
-  padding: 13px;
+  padding: 11px 12px;
   border: 1px solid var(--app-border);
   border-radius: 16px;
   background: var(--app-surface-soft);
@@ -110,7 +116,7 @@ ion-card-content {
 
 .status-item strong {
   color: var(--app-text);
-  font-size: 1.12rem;
+  font-size: 1rem;
   font-weight: 950;
 }
 
@@ -122,40 +128,29 @@ ion-card-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-
-  margin-bottom: 14px;
-  padding: 13px 14px;
+  margin-bottom: 10px;
+  padding: 11px 12px;
   border-radius: 16px;
   background: rgba(245, 158, 11, 0.16);
   color: #b45309;
-}
-
-.change-card span {
-  font-size: 0.86rem;
-  font-weight: 850;
-}
-
-.change-card strong {
-  font-size: 1.25rem;
-  font-weight: 950;
+  font-weight: 900;
 }
 
 .payment-methods {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .method-button {
-  height: 46px;
+  height: 42px;
   border: 1px solid var(--app-border);
-  border-radius: 16px;
+  border-radius: 15px;
   background: var(--app-surface-soft);
   color: var(--app-text);
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 900;
 }
 
@@ -165,29 +160,192 @@ ion-card-content {
   color: #ffffff;
 }
 
-.payment-form {
-  display: grid;
-  gap: 10px;
-  margin-bottom: 14px;
+.split-toggle-button {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--app-border);
+  border-radius: 15px;
+  background: var(--app-surface-soft);
+  color: var(--app-text);
+  cursor: pointer;
+  font-weight: 900;
 }
 
-.payment-form label {
+.split-toggle-button:hover {
+  border-color: var(--app-primary);
+  background: var(--app-primary-soft);
+}
+
+.split-card {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid var(--app-border);
+  border-radius: 18px;
+  background: var(--app-surface-soft);
+}
+
+.split-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.split-header strong {
+  color: var(--app-text);
+  font-size: 0.95rem;
+  font-weight: 950;
+}
+
+.split-header p {
+  margin: 3px 0 0;
   color: var(--app-muted);
-  font-size: 0.86rem;
+  font-size: 0.8rem;
+}
+
+.split-header button {
+  height: 30px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 10px;
+  background: var(--app-primary-soft);
+  color: var(--app-primary-dark);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.split-compact-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.split-stepper {
+  display: grid;
+  grid-template-columns: 42px 1fr 42px;
+  gap: 8px;
+}
+
+.split-stepper button,
+.split-stepper strong {
+  height: 40px;
+  border-radius: 14px;
+}
+
+.split-stepper button {
+  border: 1px solid var(--app-border);
+  background: var(--app-surface);
+  color: var(--app-text);
+  cursor: pointer;
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.split-stepper strong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--app-primary-soft);
+  color: var(--app-primary-dark);
+  font-size: 1.25rem;
+  font-weight: 950;
+}
+
+.split-result {
+  display: grid;
+  gap: 3px;
+  text-align: right;
+}
+
+.split-result span {
+  color: var(--app-muted);
+  font-size: 0.78rem;
   font-weight: 850;
 }
 
-.payment-input {
-  --background: var(--app-background);
-  --color: var(--app-text);
-  --padding-start: 14px;
-  --padding-end: 14px;
+.split-result strong {
+  color: var(--app-text);
+  font-size: 1.1rem;
+  font-weight: 950;
+}
 
-  min-height: 46px;
+.split-use-button {
+  height: 36px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--app-primary);
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.amount-display {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--app-border);
+  border-radius: 18px;
+  background: var(--app-background);
+  text-align: right;
+}
+
+.amount-display span {
+  color: var(--app-muted);
+  font-size: 0.8rem;
+  font-weight: 850;
+}
+
+.amount-display strong {
+  color: var(--app-text);
+  font-size: 1.65rem;
+  font-weight: 950;
+}
+
+.touch-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.touch-keypad button {
+  height: 42px;
   border: 1px solid var(--app-border);
   border-radius: 14px;
-  overflow: hidden;
-  font-size: 1rem;
+  background: var(--app-surface-soft);
+  color: var(--app-text);
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-weight: 950;
+}
+
+.touch-keypad button:hover {
+  border-color: var(--app-primary);
+  background: var(--app-primary-soft);
+}
+
+.quick-cash-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.quick-cash-buttons button {
+  height: 34px;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  background: var(--app-surface-soft);
+  color: var(--app-text);
+  cursor: pointer;
+  font-size: 0.78rem;
   font-weight: 850;
 }
 
@@ -210,8 +368,11 @@ ion-card-content {
 
 .payments-list {
   display: grid;
-  gap: 10px;
-  margin-top: 16px;
+  gap: 8px;
+  max-height: 145px;
+  overflow-y: auto;
+  margin-top: 12px;
+  padding-right: 4px;
 }
 
 .payments-title {
@@ -223,7 +384,7 @@ ion-card-content {
 .payments-title h3 {
   margin: 0;
   color: var(--app-text);
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 950;
 }
 
@@ -241,47 +402,35 @@ ion-card-content {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-
-  padding: 12px;
+  padding: 10px;
   border: 1px solid var(--app-border);
-  border-radius: 16px;
+  border-radius: 15px;
   background: var(--app-surface-soft);
-}
-
-.payment-line strong {
-  color: var(--app-text);
-  font-size: 0.95rem;
-  font-weight: 950;
 }
 
 .payment-line p {
   margin: 3px 0 0;
   color: var(--app-muted);
-  font-size: 0.82rem;
-  font-weight: 650;
+  font-size: 0.8rem;
 }
 
 .remove-payment-button {
-  height: 32px;
+  height: 31px;
   border: 0;
   border-radius: 999px;
   padding: 0 11px;
   background: rgba(239, 68, 68, 0.14);
   color: #dc2626;
   cursor: pointer;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 900;
-}
-
-.remove-payment-button:hover {
-  background: rgba(239, 68, 68, 0.22);
 }
 
 .modal-actions {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
   gap: 10px;
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
 .cancel-button,
@@ -315,17 +464,20 @@ ion-card-content {
 }
 
 :host-context(body.dark) .status-item,
-:host-context(body.dark) .payment-line,
 :host-context(body.dark) .method-button,
+:host-context(body.dark) .split-toggle-button,
+:host-context(body.dark) .split-card,
+:host-context(body.dark) .touch-keypad button,
 :host-context(body.dark) .quick-cash-buttons button,
-:host-context(body.dark) .cancel-button {
+:host-context(body.dark) .cancel-button,
+:host-context(body.dark) .payment-line {
   border-color: #343b46;
   background: #222831;
 }
 
-:host-context(body.dark) .payment-input {
+:host-context(body.dark) .amount-display {
   border-color: #343b46;
-  --background: #101418;
+  background: #101418;
 }
 
 :host-context(body.dark) .method-button.active {
@@ -334,347 +486,9 @@ ion-card-content {
   color: #ffffff;
 }
 
-:host-context(body.dark) .change-card {
-  background: rgba(245, 158, 11, 0.2);
-  color: #fbbf24;
-}
-
-.split-card {
-  display: grid;
-  gap: 12px;
-  margin-bottom: 16px;
-  padding: 14px;
-  border: 1px solid var(--app-border);
-  border-radius: 18px;
-  background: var(--app-surface-soft);
-}
-
-.split-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.split-header strong {
-  display: block;
-  color: var(--app-text);
-  font-size: 0.98rem;
-  font-weight: 950;
-}
-
-.split-header p {
-  margin: 3px 0 0;
-  color: var(--app-muted);
-  font-size: 0.82rem;
-  font-weight: 650;
-}
-
-.split-header button {
-  height: 32px;
-  border: 0;
-  border-radius: 999px;
-  padding: 0 11px;
-  background: var(--app-primary-soft);
-  color: var(--app-primary-dark);
-  cursor: pointer;
-  font-size: 0.76rem;
-  font-weight: 900;
-  white-space: nowrap;
-}
-
-.split-stepper {
-  display: grid;
-  grid-template-columns: 48px 1fr 48px;
-  gap: 10px;
-}
-
-.split-stepper button,
-.split-stepper strong {
-  height: 44px;
-  border-radius: 14px;
-}
-
-.split-stepper button {
-  border: 1px solid var(--app-border);
-  background: var(--app-surface);
-  color: var(--app-text);
-  cursor: pointer;
-  font-size: 1.35rem;
-  font-weight: 900;
-}
-
-.split-stepper strong {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--app-primary-soft);
-  color: var(--app-primary-dark);
-  font-size: 1.35rem;
-  font-weight: 950;
-}
-
-.split-result {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.split-result span {
-  color: var(--app-muted);
-  font-size: 0.86rem;
-  font-weight: 800;
-}
-
-.split-result strong {
-  color: var(--app-text);
-  font-size: 1.25rem;
-  font-weight: 950;
-}
-
-.split-use-button {
-  height: 38px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--app-primary);
-  color: #ffffff;
-  cursor: pointer;
-  font-weight: 900;
-}
-
-.touch-keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.touch-keypad button {
-  height: 48px;
-  border: 1px solid var(--app-border);
-  border-radius: 14px;
-  background: var(--app-surface-soft);
-  color: var(--app-text);
-  cursor: pointer;
-  font-size: 1.15rem;
-  font-weight: 950;
-}
-
-.touch-keypad button:hover {
-  border-color: var(--app-primary);
-  background: var(--app-primary-soft);
-}
-
-.payment-input {
-  text-align: right;
-  font-size: 1.25rem;
-  font-weight: 950;
-}
-
-.quick-cash-buttons {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.quick-cash-buttons button {
-  height: 38px;
-  border: 1px solid var(--app-border);
-  border-radius: 999px;
-  background: var(--app-surface-soft);
-  color: var(--app-text);
-  cursor: pointer;
-  font-size: 0.84rem;
-  font-weight: 850;
-}
-
-.quick-cash-buttons button:hover {
-  border-color: var(--app-primary);
-  background: var(--app-primary-soft);
-}
-
-:host-context(body.dark) .split-card,
-:host-context(body.dark) .touch-keypad button,
-:host-context(body.dark) .quick-cash-buttons button,
-:host-context(body.dark) .split-stepper button {
-  border-color: #343b46;
-  background: #222831;
-}
-
-:host-context(body.dark) .split-use-button {
-  background: var(--app-primary);
-  color: #ffffff;
-}
-.payment-modal {
-  width: 860px;
-  max-width: 96vw;
-  max-height: 88vh;
-}
-
-ion-card-content {
-  padding: 18px;
-}
-
-.payment-header {
-  margin-bottom: 14px;
-}
-
-.payment-header h2 {
-  font-size: 1.35rem;
-}
-
-.payment-body {
-  display: grid;
-  grid-template-columns: 1fr 0.95fr;
-  gap: 16px;
-  align-items: start;
-}
-
-.payment-left,
-.payment-right {
-  min-width: 0;
-}
-
-.total-card.compact {
-  padding: 14px 16px;
-  border-radius: 18px;
-}
-
-.total-card.compact strong {
-  font-size: 1.8rem;
-}
-
-.payment-status-grid {
-  margin-bottom: 10px;
-}
-
-.status-item {
-  padding: 10px 12px;
-}
-
-.status-item strong {
-  font-size: 1rem;
-}
-
-.payment-methods {
-  margin-bottom: 10px;
-}
-
-.method-button {
-  height: 40px;
-  border-radius: 14px;
-}
-
-.split-card {
-  gap: 10px;
-  margin-bottom: 12px;
-  padding: 12px;
-  border-radius: 16px;
-}
-
-.split-header p {
-  margin: 2px 0 0;
-}
-
-.split-compact-row {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 10px;
-  align-items: center;
-}
-
-.split-stepper {
-  grid-template-columns: 42px 1fr 42px;
-  gap: 8px;
-}
-
-.split-stepper button,
-.split-stepper strong {
-  height: 40px;
-}
-
-.split-result {
-  display: grid;
-  gap: 2px;
-  justify-content: end;
-  text-align: right;
-}
-
-.split-result strong {
-  font-size: 1.1rem;
-}
-
-.split-use-button {
-  height: 36px;
-}
-
-.payment-form {
-  gap: 9px;
-  margin-bottom: 0;
-}
-
-.payment-input {
-  min-height: 44px;
-  font-size: 1.2rem;
-}
-
-.touch-keypad {
-  gap: 7px;
-}
-
-.touch-keypad button {
-  height: 40px;
-  border-radius: 13px;
-  font-size: 1rem;
-}
-
-.quick-cash-buttons {
-  grid-template-columns: repeat(4, 1fr);
-  gap: 7px;
-}
-
-.quick-cash-buttons button {
-  height: 34px;
-  font-size: 0.78rem;
-}
-
-.add-payment-button {
-  height: 40px;
-}
-
-.payments-list {
-  max-height: 170px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.payment-line {
-  padding: 9px 10px;
-}
-
-.payment-line p {
-  margin: 2px 0 0;
-}
-
-.modal-actions {
-  margin-top: 14px;
-}
-
-.cancel-button,
-.finish-button {
-  height: 40px;
-}
-
-@media (max-width: 800px) {
-  .payment-modal {
-    width: 620px;
-  }
-
-  .payment-body {
-    grid-template-columns: 1fr;
-  }
-
-  .payments-list {
-    max-height: 140px;
-  }
+:host-context(body.dark) .payments-title span,
+:host-context(body.dark) .split-stepper strong,
+:host-context(body.dark) .split-header button {
+  background: rgba(47, 128, 165, 0.24);
+  color: #8bdcf7;
 }

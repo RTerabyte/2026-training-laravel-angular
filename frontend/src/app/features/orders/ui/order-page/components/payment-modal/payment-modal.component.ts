@@ -58,6 +58,8 @@ export class PaymentModalComponent implements OnInit {
 
   splitPeople = 1;
 
+  showSplitOptions = false;
+
   keypadKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '0', '←'];
 
   ngOnInit(): void {
@@ -233,6 +235,10 @@ export class PaymentModalComponent implements OnInit {
     if (this.cardAmount < 0) {
       this.cardAmount = 0;
     }
+  }
+
+  toggleSplitOptions(): void {
+    this.showSplitOptions = !this.showSplitOptions;
   }
 
   private addDigit(key: string): void {

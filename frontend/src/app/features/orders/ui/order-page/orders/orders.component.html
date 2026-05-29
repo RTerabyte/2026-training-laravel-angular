@@ -1,52 +1,54 @@
 <ion-content class="ion-padding">
-  <div class="order-page-header">
-    <div class="order-title-row">
-      <h2>
-        {{ tableName || "Mesa" }}
-        <small *ngIf="currentOrder">
-          · {{ currentOrder.diners }} comensales
-        </small>
-      </h2>
-
-      <button
-        *ngIf="currentOrder"
-        type="button"
-        class="edit-diners-button"
-        (click)="openEditDinersModal()"
-      >
-        Cambiar
-      </button>
-    </div>
-
-    <div class="order-code" *ngIf="currentOrder">Pedido en curso</div>
-  </div>
-
-  <div
-    class="empty-order-actions"
-    *ngIf="!isLoading && currentOrder && orderLines.length === 0"
-  >
-    <div>
-      <strong>Mesa sin productos</strong>
-      <p>Si los comensales se han ido sin pedir, puedes liberar la mesa.</p>
-    </div>
-
-    <button
-      type="button"
-      class="release-table-button"
-      (click)="openCancelOrderModal()"
-    >
-      Liberar mesa
-    </button>
-  </div>
-
   <p *ngIf="isLoading">Cargando pedido...</p>
 
-  <div class="orders-layout" *ngIf="!isLoading">
-    <app-order-products
-      [products]="products"
-      [families]="families"
-      (productSelected)="addProduct($event)"
-    ></app-order-products>
+  <div class="order-screen-layout" *ngIf="!isLoading">
+    <div class="order-main-column">
+      <div class="order-page-header">
+        <div class="order-title-row">
+          <h2>
+            {{ tableName || "Mesa" }}
+            <small *ngIf="currentOrder">
+              · {{ currentOrder.diners }} comensales
+            </small>
+          </h2>
+
+          <button
+            *ngIf="currentOrder"
+            type="button"
+            class="edit-diners-button"
+            (click)="openEditDinersModal()"
+          >
+            Cambiar
+          </button>
+        </div>
+
+        <div class="order-code" *ngIf="currentOrder">Pedido en curso</div>
+      </div>
+
+      <div
+        class="empty-order-actions"
+        *ngIf="currentOrder && orderLines.length === 0"
+      >
+        <div>
+          <strong>Mesa sin productos</strong>
+          <p>Si los comensales se han ido sin pedir, puedes liberar la mesa.</p>
+        </div>
+
+        <button
+          type="button"
+          class="release-table-button"
+          (click)="openCancelOrderModal()"
+        >
+          Liberar mesa
+        </button>
+      </div>
+
+      <app-order-products
+        [products]="products"
+        [families]="families"
+        (productSelected)="addProduct($event)"
+      ></app-order-products>
+    </div>
 
     <app-order-summary
       [orderLines]="orderLines"
@@ -116,6 +118,7 @@
       </div>
     </div>
   </div>
+
   <div
     class="edit-diners-backdrop"
     *ngIf="showEditDinersModal && currentOrder"

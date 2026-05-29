@@ -1,82 +1,173 @@
 <ion-content class="ion-padding">
-  <div class="sales-header">
-    <div>
-      <h2>Ventas</h2>
-      <p>Listado de ventas cerradas</p>
-    </div>
-
-    <ion-button fill="outline" (click)="loadSales()">Actualizar</ion-button>
-  </div>
-
-  <p *ngIf="isLoading">Cargando ventas...</p>
-
-  <div *ngIf="!isLoading && sales.length === 0" class="empty-state">
-    No hay ventas registradas todavía.
-  </div>
-
-  <div *ngIf="!isLoading && sales.length > 0" class="sales-table">
-    <div class="sales-row sales-row-header">
-      <span>Ticket</span>
-      <span>Fecha</span>
-      <span>Usuario</span>
-      <span>Total</span>
-      <span>Inspeccionar</span>
-    </div>
-
-    <div *ngFor="let sale of sales" class="sales-row">
-      <span>#{{ sale.ticket_number || "-" }}</span>
-      <span>{{ formatDate(sale.value_date) }}</span>
-      <span>{{ getUserName(sale.user_id) }}</span>
-      <strong>{{ formatMoney(sale.total) }}</strong>
-      <ion-button
-        size="small"
-        fill="clear"
-        aria-label="Ver venta"
-        (click)="openSaleDetail(sale)"
-      >
-        <ion-icon name="eye-outline"></ion-icon>
-      </ion-button>
-    </div>
-  </div>
-  <div
-    class="sale-detail-backdrop"
-    *ngIf="showSaleDetailModal && selectedSale"
-    (click)="closeSaleDetailFromBackdrop($event)"
-  >
-    <div class="sale-detail-modal">
-      <h2>Venta #{{ selectedSale.ticket_number || "-" }}</h2>
-
-      <p><strong>Fecha:</strong> {{ formatDate(selectedSale.value_date) }}</p>
-      <p><strong>Usuario:</strong> {{ getUserName(selectedSale.user_id) }}</p>
-      <p><strong>Total:</strong> {{ formatMoney(selectedSale.total) }}</p>
-
-      <div class="sale-lines-detail">
-        <h3>Productos vendidos</h3>
-
-        <p *ngIf="isLoadingSaleLines">Cargando líneas...</p>
-
-        <p *ngIf="!isLoadingSaleLines && selectedSaleLines.length === 0">
-          Esta venta no tiene líneas.
-        </p>
-
-        <div class="sale-line-item" *ngFor="let line of selectedSaleLines">
-          <div>
-            <strong>{{ getProductName(line.order_line_id) }}</strong>
-            <p>Añadido por: {{ getUserName(line.user_id) }}</p>
-          </div>
-
-          <div>
-            <span>Cantidad: {{ line.quantity }}</span>
-            <span>Precio unitario: {{ formatMoney(line.price) }}</span>
-            <span>IVA: {{ line.tax_percentage }}%</span>
-            <strong>Subtotal: {{ formatMoney(getLineSubtotal(line)) }}</strong>
-          </div>
-        </div>
+  <div class="sales-page">
+    <div class="sales-header">
+      <div>
+        <span class="section-label">Informes</span>
+        <h2>Ventas</h2>
+        <p>Consulta las ventas cerradas y revisa el detalle de cada ticket.</p>
       </div>
 
-      <ion-button fill="outline" (click)="closeSaleDetail()">
-        Cerrar
-      </ion-button>
+      <button type="button" class="refresh-button" (click)="loadSales()">
+        Actualizar
+      </button>
+    </div>
+
+    <div class="sales-summary-grid" *ngIf="!isLoading">
+      <div class="summary-card">
+        <span>Ventas mostradas</span>
+        <strong>{{ getFilteredSales().length }}</strong>
+      </div>
+
+      <div class="summary-card primary">
+        <span>Total vendido</span>
+        <strong>{{ formatMoney(getTotalFilteredSales()) }}</strong>
+      </div>
+
+      <div class="summary-card">
+        <span>Ticket medio</span>
+        <strong>{{ formatMoney(getAverageFilteredTicket()) }}</strong>
+      </div>
+
+      <div class="summary-card">
+        <span>Mejor ticket</span>
+        <strong>{{ formatMoney(getBestTicketTotal()) }}</strong>
+      </div>
+    </div>
+
+    <div class="sales-filters">
+      <div class="filter-field">
+        <label>Buscar</label>
+        <input
+          type="text"
+          placeholder="Ticket, usuario o importe"
+          [value]="searchTerm"
+          (input)="setSearchTerm($event)"
+        />
+      </div>
+
+      <div class="filter-field">
+        <label>Desde</label>
+        <input type="date" [value]="startDate" (input)="setStartDate($event)" />
+      </div>
+
+      <div class="filter-field">
+        <label>Hasta</label>
+        <input type="date" [value]="endDate" (input)="setEndDate($event)" />
+      </div>
+
+      <div class="filter-actions">
+        <button type="button" class="today-button" (click)="setTodayFilter()">
+          Hoy
+        </button>
+
+        <button type="button" class="clear-button" (click)="clearFilters()">
+          Limpiar
+        </button>
+      </div>
+    </div>
+
+    <p *ngIf="isLoading" class="loading-state">Cargando ventas...</p>
+
+    <div *ngIf="!isLoading && getFilteredSales().length === 0" class="empty-state">
+      No hay ventas que coincidan con los filtros.
+    </div>
+
+    <div *ngIf="!isLoading && getFilteredSales().length > 0" class="sales-table">
+      <div class="sales-row sales-row-header">
+        <span>Ticket</span>
+        <span>Fecha</span>
+        <span>Usuario</span>
+        <span>Total</span>
+        <span>Detalle</span>
+      </div>
+
+      <div *ngFor="let sale of getFilteredSales()" class="sales-row">
+        <span class="ticket-badge">#{{ sale.ticket_number || "-" }}</span>
+
+        <span>{{ formatDate(sale.value_date) }}</span>
+
+        <span>{{ getUserName(sale.user_id) }}</span>
+
+        <strong class="sale-total">{{ formatMoney(sale.total) }}</strong>
+
+        <button
+          type="button"
+          class="inspect-button"
+          aria-label="Ver venta"
+          (click)="openSaleDetail(sale)"
+        >
+          <ion-icon name="eye-outline"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="sale-detail-backdrop"
+      *ngIf="showSaleDetailModal && selectedSale"
+      (click)="closeSaleDetailFromBackdrop($event)"
+    >
+      <div class="sale-detail-modal" (click)="$event.stopPropagation()">
+        <div class="sale-detail-header">
+          <div>
+            <span>Detalle de venta</span>
+            <h2>Ticket #{{ selectedSale.ticket_number || "-" }}</h2>
+          </div>
+
+          <button type="button" class="close-detail-button" (click)="closeSaleDetail()">
+            ×
+          </button>
+        </div>
+
+        <div class="sale-detail-summary">
+          <div>
+            <span>Fecha</span>
+            <strong>{{ formatDate(selectedSale.value_date) }}</strong>
+          </div>
+
+          <div>
+            <span>Usuario</span>
+            <strong>{{ getUserName(selectedSale.user_id) }}</strong>
+          </div>
+
+          <div class="total-detail-card">
+            <span>Total</span>
+            <strong>{{ formatMoney(selectedSale.total) }}</strong>
+          </div>
+        </div>
+
+        <div class="sale-lines-detail">
+          <div class="sale-lines-header">
+            <h3>Productos vendidos</h3>
+            <span>{{ selectedSaleLines.length }} líneas</span>
+          </div>
+
+          <p *ngIf="isLoadingSaleLines" class="loading-state">
+            Cargando líneas...
+          </p>
+
+          <p *ngIf="!isLoadingSaleLines && selectedSaleLines.length === 0" class="empty-lines">
+            Esta venta no tiene líneas.
+          </p>
+
+          <div class="sale-line-item" *ngFor="let line of selectedSaleLines">
+            <div class="line-product">
+              <strong>{{ getProductName(line.order_line_id) }}</strong>
+              <p>Añadido por: {{ getUserName(line.user_id) }}</p>
+            </div>
+
+            <div class="line-values">
+              <span>x{{ line.quantity }}</span>
+              <span>{{ formatMoney(line.price) }} unidad</span>
+              <span>IVA {{ line.tax_percentage }}%</span>
+              <strong>{{ formatMoney(getLineSubtotal(line)) }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="detail-close-footer" (click)="closeSaleDetail()">
+          Cerrar
+        </button>
+      </div>
     </div>
   </div>
 </ion-content>
