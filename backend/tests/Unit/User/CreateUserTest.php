@@ -38,7 +38,15 @@ class CreateUserTest extends TestCase
             }));
 
         $createUser = new CreateUser($repository, $passwordHasher);
-        $response = $createUser('create@example.com', 'Create User', 'plain-password');
+        $response = $createUser(
+            '1',
+            'admin',
+            null,
+            'Create User',
+            'create@example.com',
+            'plain-password',
+            '1234',
+        );
 
         $this->assertInstanceOf(CreateUserResponse::class, $response);
         $this->assertSame('create@example.com', $response->email);
