@@ -1,79 +1,104 @@
 <div class="summary-section">
-  <h3>Pedido actual</h3>
-
-  <div class="order-lines">
-    <div *ngIf="orderLines.length === 0">
-      <p>No hay productos añadidos todavía.</p>
+  <div class="summary-header">
+    <div class="summary-header-text">
+      <h3>Pedido actual</h3>
+      <p>
+        {{ orderLines.length }}
+        {{ orderLines.length === 1 ? "linea añadida" : "lineas añadidas" }}
+      </p>
     </div>
 
-    <div *ngFor="let line of orderLines" class="order-line">
-      <div>
-        <strong>{{ line.name }}</strong>
-        <div>{{ line.price / 100 | number: "1.2-2" }} € unidad</div>
+    <span class="summary-badge" *ngIf="getPendingLinesCount() > 0">
+      {{ getPendingLinesCount() }} pendientes
+    </span>
+  </div>
+
+  <div class="order-lines">
+    <div *ngIf="orderLines.length === 0" class="empty-order">
+      <strong>Aún no hay productos</strong>
+      <p>Añade productos desde la carta para empezar el pedido.</p>
+    </div>
+
+    <div
+      *ngFor="let line of orderLines"
+      class="order-line"
+      [class.sent]="sentLineIds.includes(line.id)"
+    >
+      <div class="line-main">
+        <div>
+          <h4>{{ line.name }}</h4>
+          <p>{{ line.price / 100 | number: "1.2-2" }} € unidad</p>
+        </div>
+
+        <span class="line-total">
+          {{ getLineTotal(line) / 100 | number: "1.2-2" }} €
+        </span>
       </div>
 
-      <div class="line-actions">
-        <ion-button
-          size="small"
-          fill="outline"
-          [disabled]="sentLineIds.includes(line.id)"
-          (click)="decreaseLine.emit(line)"
-        >
-          -
-        </ion-button>
+      <div class="line-bottom">
+        <div class="quantity-control">
+          <button
+            type="button"
+            [disabled]="sentLineIds.includes(line.id)"
+            (click)="decreaseLine.emit(line)"
+          >
+            −
+          </button>
 
-        <span>x{{ line.quantity }}</span>
+          <span>x{{ line.quantity }}</span>
 
-        <ion-button
-          size="small"
-          fill="outline"
-          [disabled]="sentLineIds.includes(line.id)"
-          (click)="increaseLine.emit(line)"
-        >
-          +
-        </ion-button>
+          <button
+            type="button"
+            [disabled]="sentLineIds.includes(line.id)"
+            (click)="increaseLine.emit(line)"
+          >
+            +
+          </button>
+        </div>
 
-        <ion-button
-          size="small"
-          color="danger"
-          [disabled]="sentLineIds.includes(line.id)"
+        <span class="sent-badge" *ngIf="sentLineIds.includes(line.id)">
+          En cocina
+        </span>
+
+        <button
+          *ngIf="!sentLineIds.includes(line.id)"
+          type="button"
+          class="delete-line-button"
           (click)="deleteLine.emit(line)"
         >
           Borrar
-        </ion-button>
+        </button>
       </div>
-
-      <span>{{ getLineTotal(line) / 100 | number: "1.2-2" }} €</span>
     </div>
   </div>
 
   <div class="summary-footer">
-    <hr />
-
-    <h3>Total: {{ getOrderTotal() / 100 | number: "1.2-2" }} €</h3>
+    <div class="summary-total">
+      <span>Total</span>
+      <strong>{{ getOrderTotal() / 100 | number: "1.2-2" }} €</strong>
+    </div>
 
     <div class="summary-actions">
       <ion-button
+        class="summary-button kitchen-button"
         expand="block"
-        color="warning"
         [disabled]="getPendingLinesCount() === 0"
         (click)="sendToKitchen.emit()"
       >
-        {{
-          isSentToKitchen
-            ? "Enviar nuevos productos a cocina"
-            : "Enviar a cocina"
-        }}
+        {{ isSentToKitchen ? "Enviar a cocina" : "Enviar cocina" }}
       </ion-button>
+
       <ion-button
+        class="summary-button prebill-button"
         expand="block"
-        fill="outline"
         [disabled]="orderLines.length === 0"
         (click)="openPrebill.emit()"
       >
         Precuenta
       </ion-button>
+
       <ion-button
+        class="summary-button checkout-button"
         expand="block"
         [disabled]="orderLines.length === 0"
         (click)="checkout.emit()"

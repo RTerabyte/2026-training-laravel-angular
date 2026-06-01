@@ -1,123 +1,198 @@
 <div class="payment-backdrop">
   <ion-card class="payment-modal">
     <ion-card-content>
-      <h2>Cobrar pedido</h2>
-
-      <p>Total: {{ getTotalInEuros() | number: "1.2-2" }} €</p>
-      <p>Pagado: {{ getPaidAmount() / 100 | number: "1.2-2" }} €</p>
-      <p>Pendiente: {{ getPendingAmount() / 100 | number: "1.2-2" }} €</p>
-
-      <div *ngIf="getChangeAmount() > 0">
-        <strong
-          >Cambio: {{ getChangeAmount() / 100 | number: "1.2-2" }} €</strong
-        >
-      </div>
-
-      <div class="payment-methods">
-        <ion-button
-          [fill]="selectedMethod === 'cash' ? 'solid' : 'outline'"
-          (click)="selectMethod('cash')"
-        >
-          Efectivo
-        </ion-button>
-
-        <ion-button
-          [fill]="selectedMethod === 'card' ? 'solid' : 'outline'"
-          (click)="selectMethod('card')"
-        >
-          Tarjeta
-        </ion-button>
-      </div>
-
-      <div *ngIf="selectedMethod === 'cash'" class="payment-form">
-        <ion-input
-          type="number"
-          min="0"
-          label="Recibido (€)"
-          labelPlacement="stacked"
-          [(ngModel)]="cashReceived"
-          (ionInput)="fixNegativeAmounts()"
-        ></ion-input>
-
-        <div class="quick-cash-buttons">
-          <ion-button size="small" fill="outline" (click)="setExactAmount()">
-            Exacto
-          </ion-button>
-
-          <ion-button
-            *ngFor="let amount of quickCashAmounts"
-            size="small"
-            fill="outline"
-            (click)="setQuickCashAmount(amount)"
-          >
-            {{ amount }} €
-          </ion-button>
+      <div class="payment-header">
+        <div>
+          <h2>Cobrar pedido</h2>
+          <p>{{ selectedMethod === "cash" ? "Pago en efectivo" : "Pago con tarjeta" }}</p>
         </div>
+
+        <button type="button" class="close-button" (click)="closed.emit()">
+          ×
+        </button>
       </div>
 
-      <div *ngIf="selectedMethod === 'card'" class="payment-form">
-        <ion-input
-          type="number"
-          min="0"
-          label="Importe tarjeta (€)"
-          labelPlacement="stacked"
-          [(ngModel)]="cardAmount"
-          (ionInput)="fixNegativeAmounts()"
-        ></ion-input>
-      </div>
+      <div class="payment-main">
+        <section class="payment-left">
+          <div class="total-card">
+            <span>Total</span>
+            <strong>{{ getTotalInEuros() | number: "1.2-2" }} €</strong>
+          </div>
 
-      <ion-button
-        expand="block"
-        [disabled]="getPendingAmount() === 0"
-        (click)="addPayment()"
-      >
-        Añadir pago
-      </ion-button>
-
-      <div class="payments-list" *ngIf="payments.length > 0">
-        <h3>Pagos</h3>
-
-        <div
-          *ngFor="let payment of payments; let i = index"
-          class="payment-line"
-        >
-          <div>
-            <strong>{{
-              payment.method === "cash" ? "Efectivo" : "Tarjeta"
-            }}</strong>
-
-            <div>Pagado: {{ payment.amount / 100 | number: "1.2-2" }} €</div>
-
-            <div *ngIf="payment.method === 'cash'">
-              Recibido:
-              {{ (payment.receivedAmount ?? 0) / 100 | number: "1.2-2" }} €
+          <div class="payment-status-grid">
+            <div class="status-item">
+              <span>Pagado</span>
+              <strong>{{ getPaidAmount() / 100 | number: "1.2-2" }} €</strong>
             </div>
 
-            <div *ngIf="(payment.changeAmount ?? 0) > 0">
-              Cambio:
-              {{ (payment.changeAmount ?? 0) / 100 | number: "1.2-2" }} €
+            <div class="status-item pending">
+              <span>Pendiente</span>
+              <strong>{{ getPendingAmount() / 100 | number: "1.2-2" }} €</strong>
             </div>
           </div>
 
-          <ion-button
-            size="small"
-            color="danger"
-            fill="clear"
-            (click)="removePayment(i)"
+          <div class="change-card" *ngIf="getChangeAmount() > 0">
+            <span>Cambio</span>
+            <strong>{{ getChangeAmount() / 100 | number: "1.2-2" }} €</strong>
+          </div>
+
+          <div class="payment-methods">
+            <button
+              type="button"
+              class="method-button"
+              [class.active]="selectedMethod === 'cash'"
+              (click)="selectMethod('cash')"
+            >
+              Efectivo
+            </button>
+
+            <button
+              type="button"
+              class="method-button"
+              [class.active]="selectedMethod === 'card'"
+              (click)="selectMethod('card')"
+            >
+              Tarjeta
+            </button>
+          </div>
+
+          <button
+            type="button"
+            class="split-toggle-button"
+            (click)="toggleSplitOptions()"
           >
-            Quitar
-          </ion-button>
-        </div>
+            {{ showSplitOptions ? "Ocultar división" : "Dividir cuenta" }}
+          </button>
+
+          <div class="split-card" *ngIf="showSplitOptions">
+            <div class="split-header">
+              <div>
+                <strong>Dividir cuenta</strong>
+                <p>{{ diners }} comensales en la mesa</p>
+              </div>
+
+              <button type="button" (click)="useDinersAsSplitPeople()">
+                Usar {{ diners }}
+              </button>
+            </div>
+
+            <div class="split-compact-row">
+              <div class="split-stepper">
+                <button type="button" (click)="decreaseSplitPeople()">−</button>
+                <strong>{{ splitPeople }}</strong>
+                <button type="button" (click)="increaseSplitPeople()">+</button>
+              </div>
+
+              <div class="split-result">
+                <span>Cada parte</span>
+                <strong>{{ getSplitAmount() / 100 | number: "1.2-2" }} €</strong>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="split-use-button"
+              (click)="setSplitAmount()"
+            >
+              Cobrar una parte
+            </button>
+          </div>
+
+          <div class="payments-list" *ngIf="payments.length > 0">
+            <div class="payments-title">
+              <h3>Pagos añadidos</h3>
+              <span>{{ payments.length }}</span>
+            </div>
+
+            <div
+              *ngFor="let payment of payments; let i = index"
+              class="payment-line"
+            >
+              <div>
+                <strong>
+                  {{ payment.method === "cash" ? "Efectivo" : "Tarjeta" }}
+                </strong>
+
+                <p>{{ payment.amount / 100 | number: "1.2-2" }} €</p>
+
+                <p *ngIf="(payment.changeAmount ?? 0) > 0">
+                  Cambio:
+                  {{ (payment.changeAmount ?? 0) / 100 | number: "1.2-2" }} €
+                </p>
+              </div>
+
+              <button
+                type="button"
+                class="remove-payment-button"
+                (click)="removePayment(i)"
+              >
+                Quitar
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="payment-right">
+          <div class="amount-display">
+            <span>
+              {{
+                selectedMethod === "cash"
+                  ? "Recibido"
+                  : "Importe tarjeta"
+              }}
+            </span>
+
+            <strong>{{ getActiveAmountDisplay() }}</strong>
+          </div>
+
+          <div class="touch-keypad">
+            <button
+              type="button"
+              *ngFor="let key of keypadKeys"
+              (click)="pressKey(key)"
+            >
+              {{ key }}
+            </button>
+          </div>
+
+          <div class="quick-cash-buttons">
+            <button type="button" (click)="setExactAmount()">Pendiente</button>
+            <button type="button" (click)="setSplitAmount()">Parte</button>
+            <button type="button" (click)="clearAmount()">Borrar</button>
+
+            <button
+              type="button"
+              *ngFor="let amount of quickCashAmounts"
+              (click)="setQuickCashAmount(amount)"
+            >
+              {{ amount }} €
+            </button>
+          </div>
+
+          <button
+            type="button"
+            class="add-payment-button"
+            [disabled]="getPendingAmount() === 0"
+            (click)="addPayment()"
+          >
+            Añadir pago
+          </button>
+        </section>
       </div>
 
       <div class="modal-actions">
-        <ion-button color="medium" fill="outline" (click)="closed.emit()">
+        <button type="button" class="cancel-button" (click)="closed.emit()">
           Cancelar
-        </ion-button>
+        </button>
 
-        <ion-button *ngIf="isPaymentComplete()" (click)="confirmPayment()">
+        <button
+          type="button"
+          class="finish-button"
+          [disabled]="!isPaymentComplete()"
+          (click)="confirmPayment()"
+        >
           Finalizar venta
-        </ion-button>
+        </button>
       </div>
     </ion-card-content>
   </ion-card>

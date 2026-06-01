@@ -30,13 +30,7 @@ class FamilySeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'uuid' => Str::uuid()->toString(),
-                'restaurant_id' => $restaurantId,
-                'name' => 'Cafés',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+
             [
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
@@ -48,6 +42,20 @@ class FamilySeeder extends Seeder
                 'uuid' => Str::uuid()->toString(),
                 'restaurant_id' => $restaurantId,
                 'name' => 'Platos Principales',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'uuid' => Str::uuid()->toString(),
+                'restaurant_id' => $restaurantId,
+                'name' => 'Hamburguesas',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'uuid' => Str::uuid()->toString(),
+                'restaurant_id' => $restaurantId,
+                'name' => 'Cafés',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

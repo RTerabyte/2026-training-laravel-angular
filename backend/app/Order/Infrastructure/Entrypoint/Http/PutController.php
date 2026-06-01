@@ -17,8 +17,8 @@ final class PutController
     {
         $validated = $request->validate([
             'status' => ['sometimes', 'string'],
-            'table_id' => ['sometimes', 'integer'],
-            'closed_by_user_id' => ['nullable', 'integer'],
+            'table_id' => ['sometimes', 'string'],
+            'closed_by_user_id' => ['nullable', 'string'],
             'diners' => ['sometimes', 'integer', 'min:1'],
             'closed_at' => ['nullable', 'date'],
         ]);

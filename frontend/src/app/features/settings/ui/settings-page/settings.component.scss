@@ -1,53 +1,112 @@
 .settings-page {
-  --background: var(--ion-background-color);
-  color: var(--ion-text-color);
+  --background: var(--app-background);
+  color: var(--app-text);
+}
+
+.settings-shell {
+  padding: 28px 32px 36px;
 }
 
 .settings-header {
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .settings-header h2 {
-  margin: 0 0 8px;
-  color: var(--ion-text-color);
+  margin: 0 0 6px;
+  color: var(--app-text);
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 950;
+  line-height: 1;
 }
 
 .settings-header p {
   margin: 0;
-  color: var(--ion-color-medium);
+  color: var(--app-muted);
+  font-size: 0.95rem;
+  font-weight: 650;
 }
 
 .settings-sections {
   display: flex;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   flex-wrap: wrap;
 }
 
 .settings-sections ion-button {
-  --background: transparent;
-  --background-hover: rgba(124, 58, 237, 0.08);
-  --background-focused: transparent;
-  --background-activated: transparent;
-  --color: var(--ion-text-color);
+  height: 44px;
+  min-height: 44px;
+  margin: 0;
+  text-transform: none;
+  font-size: 0.9rem;
+  font-weight: 850;
+
+  --background: var(--app-surface);
+  --background-hover: var(--app-primary-soft);
+  --background-focused: var(--app-primary-soft);
+  --background-activated: var(--app-primary-soft);
+
+  --color: var(--app-text);
   --box-shadow: none;
   --border-radius: 999px;
-  --border-color: var(--ion-color-medium);
+  --border-color: var(--app-border);
   --border-style: solid;
   --border-width: 1px;
   --ripple-color: transparent;
 
-  height: 52px;
-  text-transform: none;
+  --padding-start: 18px;
+  --padding-end: 18px;
 }
 
 .settings-sections ion-button.active {
-  --background: #7c3aed;
-  --background-hover: #7c3aed;
-  --background-focused: #7c3aed;
-  --background-activated: #7c3aed;
+  --background: var(--app-primary);
+  --background-hover: var(--app-primary);
+  --background-focused: var(--app-primary);
+  --background-activated: var(--app-primary);
+
   --color: #ffffff;
-  --border-color: #7c3aed;
+  --border-color: var(--app-primary);
+}
+
+:host-context(body.dark) .settings-sections ion-button {
+  --background: #181c22;
+  --background-hover: rgba(47, 128, 165, 0.18);
+  --background-focused: rgba(47, 128, 165, 0.18);
+  --background-activated: rgba(47, 128, 165, 0.24);
+
+  --color: #f8fafc;
+  --border-color: #303641;
+}
+
+:host-context(body.dark) .settings-sections ion-button.active {
+  --background: var(--app-primary);
+  --background-hover: var(--app-primary);
+  --background-focused: var(--app-primary);
+  --background-activated: var(--app-primary);
+
+  --color: #ffffff;
+  --border-color: var(--app-primary);
+}
+
+@media (max-width: 900px) {
+  .settings-shell {
+    padding: 20px 18px 28px;
+  }
+
+  .settings-header h2 {
+    font-size: 1.7rem;
+  }
+
+  .settings-sections {
+    gap: 10px;
+  }
+
+  .settings-sections ion-button {
+    height: 42px;
+    min-height: 42px;
+    font-size: 0.86rem;
+
+    --padding-start: 15px;
+    --padding-end: 15px;
+  }
 }

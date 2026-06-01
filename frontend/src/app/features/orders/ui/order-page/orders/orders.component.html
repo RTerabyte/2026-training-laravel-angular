@@ -1,14 +1,54 @@
 <ion-content class="ion-padding">
-  <h2>Pedido abierto</h2>
-
   <p *ngIf="isLoading">Cargando pedido...</p>
 
-  <div class="orders-layout" *ngIf="!isLoading">
-    <app-order-products
-      [products]="products"
-      [families]="families"
-      (productSelected)="addProduct($event)"
-    ></app-order-products>
+  <div class="order-screen-layout" *ngIf="!isLoading">
+    <div class="order-main-column">
+      <div class="order-page-header">
+        <div class="order-title-row">
+          <h2>
+            {{ tableName || "Mesa" }}
+            <small *ngIf="currentOrder">
+              · {{ currentOrder.diners }} comensales
+            </small>
+          </h2>
+
+          <button
+            *ngIf="currentOrder"
+            type="button"
+            class="edit-diners-button"
+            (click)="openEditDinersModal()"
+          >
+            Cambiar
+          </button>
+        </div>
+
+        <div class="order-code" *ngIf="currentOrder">Pedido en curso</div>
+      </div>
+
+      <div
+        class="empty-order-actions"
+        *ngIf="currentOrder && orderLines.length === 0"
+      >
+        <div>
+          <strong>Mesa sin productos</strong>
+          <p>Si los comensales se han ido sin pedir, puedes liberar la mesa.</p>
+        </div>
+
+        <button
+          type="button"
+          class="release-table-button"
+          (click)="openCancelOrderModal()"
+        >
+          Liberar mesa
+        </button>
+      </div>
+
+      <app-order-products
+        [products]="products"
+        [families]="families"
+        (productSelected)="addProduct($event)"
+      ></app-order-products>
+    </div>
 
     <app-order-summary
       [orderLines]="orderLines"
@@ -26,6 +66,7 @@
   <app-payment-modal
     *ngIf="showPaymentModal"
     [total]="getOrderTotal()"
+    [diners]="currentOrder?.diners ?? 1"
     (closed)="showPaymentModal = false"
     (paymentConfirmed)="confirmPayment($event)"
   ></app-payment-modal>
@@ -46,4 +87,100 @@
     [openedAt]="currentOrder?.opened_at ?? null"
     (closed)="goBackToTables()"
   ></app-final-ticket-modal>
+
+  <div
+    class="cancel-order-backdrop"
+    *ngIf="showCancelOrderModal"
+    (click)="closeCancelOrderModalFromBackdrop($event)"
+  >
+    <div class="cancel-order-modal" (click)="$event.stopPropagation()">
+      <div class="cancel-order-header">
+        <span>Liberar mesa</span>
+
+        <button type="button" (click)="closeCancelOrderModal()">×</button>
+      </div>
+
+      <h2>¿Cancelar pedido?</h2>
+
+      <p>
+        Esta mesa no tiene productos añadidos. Si continúas, el pedido se
+        marcará como cancelado y la mesa volverá a estar libre.
+      </p>
+
+      <div class="cancel-order-actions">
+        <button
+          type="button"
+          class="danger-button"
+          (click)="$event.stopPropagation(); confirmCancelOrder()"
+        >
+          Liberar mesa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="edit-diners-backdrop"
+    *ngIf="showEditDinersModal && currentOrder"
+    (click)="closeEditDinersModalFromBackdrop($event)"
+  >
+    <div class="edit-diners-modal" (click)="$event.stopPropagation()">
+      <div class="edit-diners-header">
+        <span>Comensales</span>
+
+        <button type="button" (click)="closeEditDinersModal()">×</button>
+      </div>
+
+      <h2>{{ tableName || "Mesa" }}</h2>
+      <p>Actualiza el número de comensales del pedido.</p>
+
+      <div class="diners-stepper">
+        <button type="button" (click)="decreaseEditDiners()">−</button>
+
+        <strong>{{ editDiners }}</strong>
+
+        <button type="button" (click)="increaseEditDiners()">+</button>
+      </div>
+
+      <div class="quick-diners-grid">
+        <button
+          type="button"
+          *ngFor="let diner of quickDiners"
+          [class.active]="editDiners === diner"
+          (click)="selectEditDiners(diner)"
+        >
+          {{ diner }}
+        </button>
+      </div>
+
+      <div class="manual-edit-diners">
+        <label>Más comensales</label>
+
+        <input
+          type="number"
+          min="1"
+          [value]="editDiners"
+          (input)="changeManualEditDiners($event)"
+        />
+      </div>
+
+      <div class="edit-diners-actions">
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="closeEditDinersModal()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="confirm-button"
+          (click)="confirmEditDiners()"
+        >
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
 </ion-content>

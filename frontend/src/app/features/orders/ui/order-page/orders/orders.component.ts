@@ -9,7 +9,7 @@ import {
   CurrentOrderLine,
   OrderSummaryComponent,
 } from '../components/order-summary/order-summary.component';
-import { Order } from '../../../infrastructure/order.service';
+import { Order, OrderService } from '../../../infrastructure/order.service';
 import { CurrentOrderFacade } from '../../../application/current-order.facade';
 import { Family } from '../../../../catalog/domain/family.model';
 import {
@@ -60,12 +60,19 @@ export class OrdersComponent implements OnInit {
   showFinalTicketModal = false;
   finalTicketPayments: PaymentLine[] = [];
 
+  showCancelOrderModal = false;
+
+  showEditDinersModal = false;
+  editDiners = 1;
+  quickDiners = [1, 2, 3, 4, 5, 6, 7, 8];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
     private currentOrderFacade: CurrentOrderFacade,
     private tableService: TableService,
+    private orderService: OrderService,
   ) {}
 
   ngOnInit(): void {
@@ -104,14 +111,15 @@ export class OrdersComponent implements OnInit {
       return;
     }
 
+    const currentOrder = this.currentOrder;
+
     this.tableService.getTables().subscribe({
       next: (response: any) => {
         const tables = response.tables ?? response.data ?? response;
 
-        const table = tables.find(
-          (item: any) =>
-            String(item.id) === String(this.currentOrder?.table_id),
-        );
+        const table = tables.find((item: any) => {
+          return String(item.id) === String(currentOrder.table_id);
+        });
 
         this.tableName = table?.name ?? '';
       },
@@ -273,6 +281,122 @@ export class OrdersComponent implements OnInit {
   goBackToTables(): void {
     this.showFinalTicketModal = false;
     this.router.navigate(['/tpv/tables']);
+  }
+
+  openCancelOrderModal(): void {
+    if (this.orderLines.length > 0) {
+      return;
+    }
+
+    this.showCancelOrderModal = true;
+  }
+
+  closeCancelOrderModal(): void {
+    this.showCancelOrderModal = false;
+  }
+
+  closeCancelOrderModalFromBackdrop(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    this.closeCancelOrderModal();
+  }
+
+  confirmCancelOrder(): void {
+    if (!this.currentOrder || !this.user || this.orderLines.length > 0) {
+      return;
+    }
+
+    const payload = {
+      status: 'cancelled',
+      closed_by_user_id: String(this.user.id),
+      diners: Number(this.currentOrder.diners),
+      closed_at: new Date().toISOString(),
+    };
+
+    this.orderService.updateOrder(this.currentOrder.id, payload).subscribe({
+      next: () => {
+        localStorage.removeItem(this.getSentLinesStorageKey());
+
+        this.showCancelOrderModal = false;
+        this.router.navigate(['/tpv/tables']);
+      },
+      error: (error: unknown) => {
+        console.log('ERROR liberando mesa', error);
+      },
+    });
+  }
+  openEditDinersModal(): void {
+    if (!this.currentOrder) {
+      return;
+    }
+
+    this.editDiners = this.currentOrder.diners;
+    this.showEditDinersModal = true;
+  }
+
+  closeEditDinersModal(): void {
+    this.showEditDinersModal = false;
+  }
+
+  closeEditDinersModalFromBackdrop(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    this.closeEditDinersModal();
+  }
+
+  selectEditDiners(diners: number): void {
+    this.editDiners = diners;
+  }
+
+  increaseEditDiners(): void {
+    this.editDiners++;
+  }
+
+  decreaseEditDiners(): void {
+    if (this.editDiners <= 1) {
+      return;
+    }
+
+    this.editDiners--;
+  }
+
+  changeManualEditDiners(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const diners = Number(input.value);
+
+    this.editDiners = diners > 0 ? diners : 1;
+  }
+
+  confirmEditDiners(): void {
+    if (!this.currentOrder || this.editDiners < 1) {
+      return;
+    }
+
+    const payload = {
+      diners: Number(this.editDiners),
+    };
+
+    this.orderService.updateOrder(this.currentOrder.id, payload).subscribe({
+      next: () => {
+        if (!this.currentOrder) {
+          return;
+        }
+
+        this.currentOrder = {
+          ...this.currentOrder,
+          diners: Number(this.editDiners),
+        };
+
+        this.closeEditDinersModal();
+      },
+      error: (error: unknown) => {
+        console.log('ERROR updating diners', error);
+      },
+    });
   }
 
   private getSentLinesStorageKey(): string {

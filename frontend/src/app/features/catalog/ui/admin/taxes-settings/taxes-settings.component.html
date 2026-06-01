@@ -1,69 +1,107 @@
-<div class="settings-layout">
-  <ion-card class="panel-card">
+<div class="settings-crud-layout">
+  <ion-card class="admin-form-card" [class.edit-mode]="taxMode === 'edit'">
     <ion-card-content>
-      <h3 *ngIf="taxMode === 'create'">Crear impuesto</h3>
-      <h3 *ngIf="taxMode === 'edit'">Editar impuesto</h3>
+      <div class="card-header">
+        <div>
+          <span>
+            {{ taxMode === "create" ? "Nuevo impuesto" : "Editando impuesto" }}
+          </span>
 
-      <ion-item>
-        <ion-label position="stacked">Nombre</ion-label>
-        <ion-input
-          *ngIf="taxMode === 'create'"
-          type="text"
-          [(ngModel)]="createTaxForm.name"
-          placeholder="IVA General"
-        ></ion-input>
-        <ion-input
-          *ngIf="taxMode === 'edit'"
-          type="text"
-          [(ngModel)]="editTaxForm.name"
-          placeholder="IVA General"
-        ></ion-input>
-      </ion-item>
+        </div>
 
-      <ion-item>
-        <ion-label position="stacked">Porcentaje</ion-label>
-        <ion-input
-          *ngIf="taxMode === 'create'"
-          type="number"
-          [(ngModel)]="createTaxForm.percentage"
-          placeholder="21"
-        ></ion-input>
-        <ion-input
+        <ion-button
           *ngIf="taxMode === 'edit'"
-          type="number"
-          [(ngModel)]="editTaxForm.percentage"
-          placeholder="21"
-        ></ion-input>
-      </ion-item>
+          size="small"
+          fill="clear"
+          class="ghost-button"
+          (click)="cancelEditTax()"
+        >
+          Cancelar
+        </ion-button>
+      </div>
+
+      <div class="form-grid">
+        <ion-item class="form-item">
+          <ion-label position="stacked">Nombre</ion-label>
+
+          <ion-input
+            *ngIf="taxMode === 'create'"
+            type="text"
+            [(ngModel)]="createTaxForm.name"
+            placeholder="IVA General"
+          ></ion-input>
+
+          <ion-input
+            *ngIf="taxMode === 'edit'"
+            type="text"
+            [(ngModel)]="editTaxForm.name"
+            placeholder="IVA General"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="stacked">Porcentaje</ion-label>
+
+          <ion-input
+            *ngIf="taxMode === 'create'"
+            type="number"
+            [(ngModel)]="createTaxForm.percentage"
+            placeholder="21"
+          ></ion-input>
+
+          <ion-input
+            *ngIf="taxMode === 'edit'"
+            type="number"
+            [(ngModel)]="editTaxForm.percentage"
+            placeholder="21"
+          ></ion-input>
+        </ion-item>
+      </div>
 
       <div class="error-box" *ngIf="taxErrorMessages.length > 0">
-        <p class="error-title">Revisa estos campos:</p>
+        <strong>Revisa estos campos</strong>
+
         <ul>
           <li *ngFor="let error of taxErrorMessages">{{ error }}</li>
         </ul>
       </div>
 
       <div class="form-actions" *ngIf="taxMode === 'create'">
-        <ion-button expand="block" (click)="createTax()">
+        <ion-button expand="block" class="primary-action" (click)="createTax()">
           Crear impuesto
         </ion-button>
       </div>
 
       <div class="form-actions edit-actions" *ngIf="taxMode === 'edit'">
-        <ion-button color="medium" (click)="cancelEditTax()">
+        <ion-button
+          fill="clear"
+          class="secondary-action"
+          (click)="cancelEditTax()"
+        >
           Cancelar
         </ion-button>
-        <ion-button (click)="saveEditTax()">Guardar cambios</ion-button>
+
+        <ion-button class="primary-action" (click)="saveEditTax()">
+          Guardar cambios
+        </ion-button>
       </div>
     </ion-card-content>
   </ion-card>
 
-  <ion-card class="panel-card">
+  <ion-card class="admin-list-card">
     <ion-card-content>
-      <h3>Impuestos</h3>
+      <div class="card-header list-header">
+        <div>
+          <span>Fiscalidad</span>
+          <h3>Impuestos</h3>
+        </div>
 
-      <ion-item>
-        <ion-label position="stacked">Buscar</ion-label>
+        <strong class="count-badge">{{ filteredTaxes.length }}</strong>
+      </div>
+
+      <ion-item class="search-item">
+        <ion-label position="stacked">Buscar impuesto</ion-label>
+
         <ion-input
           type="text"
           [(ngModel)]="taxSearchTerm"
@@ -73,37 +111,47 @@
       </ion-item>
 
       <ion-button
-        fill="outline"
+        fill="clear"
         size="small"
+        class="clear-search-button"
         *ngIf="taxSearchTerm"
         (click)="clearTaxSearch()"
       >
-        Limpiar
+        Limpiar búsqueda
       </ion-button>
 
       <div *ngIf="filteredTaxes.length === 0" class="empty-state">
         No hay impuestos para mostrar.
       </div>
 
-      <div class="users-list" *ngIf="filteredTaxes.length > 0">
-        <div *ngFor="let tax of filteredTaxes" class="user-row">
-          <div class="user-info">
-            <strong>{{ tax.name }}</strong>
-            <span>Porcentaje: {{ tax.percentage }}%</span>
+      <div class="settings-crud-list" *ngIf="filteredTaxes.length > 0">
+        <div *ngFor="let tax of filteredTaxes" class="settings-crud-row">
+          <div class="settings-crud-avatar">%</div>
+
+          <div class="settings-crud-info">
+            <div class="settings-crud-main-row">
+              <strong>{{ tax.name }}</strong>
+
+              <span class="price-badge">
+                {{ tax.percentage }}%
+              </span>
+            </div>
+
+            <span>Impuesto aplicado a productos del catálogo</span>
           </div>
 
           <div class="row-actions">
             <ion-button
-              color="warning"
               size="small"
+              class="edit-button"
               (click)="startEditTax(tax)"
             >
               Editar
             </ion-button>
 
             <ion-button
-              color="danger"
               size="small"
+              class="delete-button"
               (click)="deleteTax(tax)"
             >
               Borrar

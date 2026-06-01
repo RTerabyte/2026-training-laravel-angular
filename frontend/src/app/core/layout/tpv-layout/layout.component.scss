@@ -2,27 +2,72 @@
   display: flex;
   height: 100vh;
   background: var(--app-background);
+  position: relative;
+  overflow: hidden;
+}
+.layout::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(47, 128, 165, 0.08), transparent 18%),
+    radial-gradient(circle at 85% 15%, rgba(47, 128, 165, 0.06), transparent 20%),
+    radial-gradient(circle at 70% 75%, rgba(47, 128, 165, 0.05), transparent 18%);
 }
 
 .sidebar {
-  width: 220px;
+  width: 196px;
   background: var(--app-surface);
   color: var(--app-text);
   display: flex;
   flex-direction: column;
-  padding: 20px 18px;
-  border-right: 2px solid var(--app-border);
+  padding: 16px 14px;
+  border-right: 1px solid var(--app-border);
   box-shadow: 8px 0 24px rgba(15, 23, 42, 0.05);
+  z-index: 2;
 }
 
-.sidebar h2 {
-  margin: 0 0 24px;
-  padding: 8px 8px 14px;
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 6px 4px 16px;
   border-bottom: 1px solid var(--app-border);
-  color: var(--app-text);
-  font-size: 2rem;
+}
+
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    var(--app-primary),
+    var(--app-primary-dark)
+  );
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1rem;
+  box-shadow: 0 10px 22px rgba(47, 128, 165, 0.22);
+}
+
+.sidebar-brand h2 {
+  margin: 0;
+  font-size: 1.7rem;
+  line-height: 1;
   font-weight: 900;
   letter-spacing: -0.04em;
+}
+
+.sidebar-brand p {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: var(--app-muted);
+  font-weight: 700;
 }
 
 .nav-button,
@@ -33,7 +78,7 @@
   --background-activated: var(--app-primary-soft);
   --color: var(--app-text);
   --box-shadow: none;
-  --border-radius: 10px;
+  --border-radius: 13px;
   --padding-start: 14px;
   --padding-end: 14px;
 
@@ -42,7 +87,7 @@
   margin: 0 0 8px;
   text-transform: none;
   justify-content: flex-start;
-  font-size: 0.98rem;
+  font-size: 0.94rem;
   font-weight: 750;
 }
 
@@ -66,18 +111,15 @@
   --background-focused: var(--app-primary-soft);
   --background-activated: var(--app-primary-soft);
   --color: var(--app-text);
-  --border-radius: 12px;
+  --border-radius: 14px;
   --box-shadow: none;
   --padding-start: 0;
   --padding-end: 0;
 
-  width: 44px;
-  height: 44px;
-  margin-bottom: 16px;
-}
-
-.theme-button:hover {
-  --color: var(--app-primary);
+  width: 46px;
+  height: 46px;
+  margin-bottom: 14px;
+  align-self: center;
 }
 
 .theme-button ion-icon {
@@ -87,21 +129,53 @@
 .user-block {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 10px;
   padding-top: 14px;
   border-top: 1px solid var(--app-border);
 }
 
-.user-name {
+.user-card {
   display: flex;
   align-items: center;
-  min-height: 36px;
-  padding: 0 6px;
-  border-radius: 12px;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 16px;
   background: var(--app-surface-soft);
+  border: 1px solid var(--app-border);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--app-primary-soft);
+  color: var(--app-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.user-name {
+  color: var(--app-text);
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.user-role {
   color: var(--app-muted);
-  font-size: 0.95rem;
+  font-size: 0.74rem;
   font-weight: 700;
+  margin-top: 3px;
 }
 
 .logout-button {
@@ -118,4 +192,6 @@
   background: var(--app-background);
   overflow: auto;
   color: var(--app-text);
+  position: relative;
+  z-index: 1;
 }
