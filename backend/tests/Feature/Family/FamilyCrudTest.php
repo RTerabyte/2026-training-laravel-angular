@@ -28,18 +28,7 @@ class FamilyCrudTest extends TestCase
     {
         $restaurantId = $this->createRestaurant();
 
-        $user = EloquentUser::create([
-            'uuid' => (string) Str::uuid(),
-            'restaurant_id' => $restaurantId,
-            'role' => 'admin',
-            'image_src' => null,
-            'name' => 'Admin Test',
-            'email' => 'admin-family-' . Str::uuid() . '@test.com',
-            'password' => Hash::make('password123'),
-            'pin' => '1234',
-        ]);
-
-        Sanctum::actingAs($user);
+        $this->authenticateAsAdmin($restaurantId);
 
         $response = $this->postJson('/api/families', [
             'restaurant_id' => $restaurantId,
@@ -56,6 +45,43 @@ class FamilyCrudTest extends TestCase
             'restaurant_id' => $restaurantId,
             'name' => 'Entrantes Test',
         ]);
+    }
+
+
+    public function test_authenticated_user_can_list_families(): void
+    {
+        $restaurantId = $this->createRestaurant();
+
+        $this->authenticateAsAdmin($restaurantId);
+
+        $this->postJson('/api/families', [
+            'restaurant_id' => $restaurantId,
+            'name' => 'Bebidas Test',
+        ])->assertStatus(201);
+
+        $response = $this->getJson('/api/families');
+
+        $response->assertStatus(200);
+
+        $response->assertJsonFragment([
+            'name' => 'Bebidas Test',
+        ]);
+    }
+
+    private function authenticateAsAdmin(int $restaurantId): void
+    {
+        $user = EloquentUser::create([
+            'uuid' => (string) Str::uuid(),
+            'restaurant_id' => $restaurantId,
+            'role' => 'admin',
+            'image_src' => null,
+            'name' => 'Admin Test',
+            'email' => 'admin-family-' . Str::uuid() . '@test.com',
+            'password' => Hash::make('password123'),
+            'pin' => '1234',
+        ]);
+
+        Sanctum::actingAs($user);
     }
 
     private function createRestaurant(): int
