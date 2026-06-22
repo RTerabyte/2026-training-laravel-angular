@@ -28,6 +28,7 @@ class OrderCrudTest extends TestCase
 
     public function test_authenticated_user_can_create_order(): void
     {
+        $restaurantId = $this->createRestaurant();
         $zone = $this->createZone($restaurantId);
         $table = $this->createTable($restaurantId, $zone->id);
         $user = $this->authenticateAsAdmin($restaurantId);
