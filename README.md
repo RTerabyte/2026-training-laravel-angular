@@ -6,7 +6,7 @@ Autor: Rodrigo Tera García
 GitHub: RTerabyte 
 
 Periodo de prácticas: Marzo - Junio 2026  
-Actualizado a fecha de: 20/05/2026
+Actualizado a fecha de: 23/06/2026
 
 El proyecto simula un entorno real de restauración, incluyendo tanto la parte de administración como el flujo completo de venta utilizado diariamente en un establecimiento hostelero.
 
@@ -36,6 +36,7 @@ Además de los hitos obligatorios del proyecto, se han implementado mejoras func
   - [Prerrequisitos](#prerrequisitos)
   - [Cómo empezar](#cómo-empezar)
   - [Migraciones y seeders](#migraciones-y-seeders)
+- [Tests](#tests)
 - [Servicios Docker](#servicios-docker)
 - [Estado actual del proyecto](#estado-actual-del-proyecto)
 - [Futuras mejoras](#futuras-mejoras)
@@ -67,6 +68,8 @@ Además de los hitos obligatorios del proyecto, se han implementado mejoras func
 - Laravel Sanctum
 - Docker
 - Arquitectura DDD + Hexagonal
+- PHPUnit
+- Mockery
 
 ### Frontend
 
@@ -87,8 +90,10 @@ Además de los hitos obligatorios del proyecto, se han implementado mejoras func
 - CRUD de impuestos
 - CRUD de zonas
 - CRUD de mesas
+- CRUD de restaurantes
 - Activación y desactivación de productos
 - Gestión de imágenes de productos
+- Control de permisos por rol
 
 ### TPV
 
@@ -107,6 +112,7 @@ Además de los hitos obligatorios del proyecto, se han implementado mejoras func
 - Cálculo automático de cambio
 - Ticket final imprimible
 - Liberación automática de mesas al cerrar venta
+- Generación de ventas y líneas de venta mediante checkout
 
 ---
 
@@ -246,6 +252,47 @@ docker compose exec api php artisan migrate:fresh --seed
 
 ---
 
+## Tests
+
+El proyecto incluye una suite de tests automatizados para validar tanto los endpoints principales de la API como la lógica de dominio.
+
+Actualmente existen dos tipos de tests:
+
+Feature/API tests: validan rutas, controladores, autenticación, persistencia y flujos principales.
+Unit tests: validan entidades, Value Objects y casos de uso de forma aislada, usando mocks cuando corresponde.
+
+La suite de tests cubre:
+
+Autenticación y cierre de sesión
+Usuarios y permisos por rol
+Restaurantes
+Familias
+Impuestos
+Zonas
+Mesas
+Productos
+Pedidos
+Líneas de pedido
+Ventas
+Líneas de venta
+Checkout de pedidos
+Casos de uso y entidades principales del dominio
+
+Para ejecutar todos los tests:
+
+docker compose exec api php artisan test
+
+También puede ejecutarse mediante Make:
+
+make test
+
+Resultado actual de la suite:
+
+85 tests passed
+356 assertions
+
+---
+
 ## Servicios Docker
 
 | Servicio | URL |
@@ -268,6 +315,9 @@ Actualmente el proyecto incluye:
 - Cobro de ventas
 - Sistema de pagos múltiples y cálculo automático de cambio
 - Integración completa frontend/backend
+- Suite de tests Feature/API para los endpoints principales
+- Tests unitarios para entidades y casos de uso de dominio
+- Cobertura del flujo completo de checkout de pedidos
 
 ---
 
